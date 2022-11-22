@@ -83,20 +83,24 @@ const Map: NextPage = () => {
       .setLngLat([125.0110436472774, 7.747113391397917])
       .addTo(mapData);
   }
-
+  interface person {
+    name: string;
+    long: number;
+    lat: number;
+  }
   const options = [
     { value: "Alyssa Deepa", label: "Alyssa Deepa" },
     { value: "Harsha Isidora", label: "Harsha Isidora" },
-    { value: "Alyssa Deepa", label: "Ciar Disha" },
-    { value: "Harsha Isidora", label: "Tavish Thandiwe" },
-    { value: "Alyssa Deepa", label: "Annikki Asia" },
-    { value: "Harsha Isidora", label: "Vinay Anisha" },
-    { value: "Alyssa Deepa", label: "Vesper Tegwen" },
-    { value: "Harsha Isidora", label: "Jagoda Latife" },
-    { value: "Alyssa Deepa", label: "Anisha Elil" },
-    { value: "Harsha Isidora", label: "Lisandro Platon" },
-    { value: "Alyssa Deepa", label: "Jehoram Nabopolassar" },
-    { value: "Harsha Isidora", label: "Sarah Moab" },
+    { value: "Ciar Disha", label: "Ciar Disha" },
+    { value: "Tavish Thandiwe", label: "Tavish Thandiwe" },
+    { value: "Annikki Asia", label: "Annikki Asia" },
+    { value: "Vinay Anisha", label: "Vinay Anisha" },
+    { value: "Vesper Tegwen", label: "Vesper Tegwen" },
+    { value: "Jagoda Latife", label: "Jagoda Latife" },
+    { value: "Anisha Elil", label: "Anisha Elil" },
+    { value: "Lisandro Platon", label: "Lisandro Platon" },
+    { value: "Jehoram Nabopolassar", label: "Jehoram Nabopolassar" },
+    { value: "Sarah Moab", label: "Sarah Moab" },
   ];
 
   return (
