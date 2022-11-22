@@ -84,6 +84,21 @@ const Map: NextPage = () => {
       .addTo(mapData);
   }
 
+  const options = [
+    { value: "Alyssa Deepa", label: "Alyssa Deepa" },
+    { value: "Harsha Isidora", label: "Harsha Isidora" },
+    { value: "Alyssa Deepa", label: "Ciar Disha" },
+    { value: "Harsha Isidora", label: "Tavish Thandiwe" },
+    { value: "Alyssa Deepa", label: "Annikki Asia" },
+    { value: "Harsha Isidora", label: "Vinay Anisha" },
+    { value: "Alyssa Deepa", label: "Vesper Tegwen" },
+    { value: "Harsha Isidora", label: "Jagoda Latife" },
+    { value: "Alyssa Deepa", label: "Anisha Elil" },
+    { value: "Harsha Isidora", label: "Lisandro Platon" },
+    { value: "Alyssa Deepa", label: "Jehoram Nabopolassar" },
+    { value: "Harsha Isidora", label: "Sarah Moab" },
+  ];
+
   return (
     <main className="relative flex h-screen w-full items-center justify-center overflow-hidden">
       <Head>
@@ -93,8 +108,9 @@ const Map: NextPage = () => {
         />
       </Head>
       <div className="absolute top-5 left-5 z-max h-12 w-96 drop-shadow-lg">
-        <Select placeholder="Search a name..." isSearchable />
+        <Select options={options} placeholder="Search a name..." isSearchable />
       </div>
+      {/* <div className="absolute top-0 left-0 z-50 h-screen w-full max-w-md bg-red-300"></div> */}
       <div className="h-screen w-full overflow-hidden" ref={ref} />
     </main>
   );
