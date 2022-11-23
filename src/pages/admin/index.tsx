@@ -1,7 +1,8 @@
+import { NextPage } from "next";
 import React from "react";
 
-function Admin() {
+const admin: NextPage = () => {
   return <div>Admin</div>;
-}
+};
 
-export default Admin;
+export default admin;

@@ -133,18 +133,20 @@ const Map: NextPage = () => {
         /> */}
       </Head>
       <div className="absolute top-5 left-5 z-max h-auto w-full pr-10">
-        <div className="h-12 w-full drop-shadow-lg lg:w-96">
+        <div className="relative h-12 w-full drop-shadow-lg lg:w-96">
           <Select
             options={options}
-            components={{ DropdownIndicator }}
             placeholder="Search a name..."
             isSearchable
             isClearable
             onChange={(e) => {
               selectedMarker?.remove();
-              setSelectedPerson(e?.value as unknown as Person);
+              setSelectedPerson(e?.value as Person);
             }}
           />
+          <div className="pointer-events-none absolute top-2 right-2 w-6 bg-white">
+            <Search />
+          </div>
         </div>
       </div>
       {/* <div className="absolute top-0 left-0 z-50 h-screen w-full max-w-md bg-red-300"></div> */}

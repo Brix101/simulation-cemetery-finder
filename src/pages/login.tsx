@@ -1,7 +1,8 @@
+import { NextPage } from "next";
 import React from "react";
 
-function Login() {
-  return <div>Login</div>;
-}
+const login: NextPage = () => {
+  return <div>login</div>;
+};
 
-export default Login;
+export default login;
