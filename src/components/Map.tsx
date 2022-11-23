@@ -3,7 +3,9 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useEffect, useRef, useState } from "react";
-import Select from "react-select";
+import { Search } from "react-feather";
+import Select, { components, DropdownIndicatorProps } from "react-select";
+import useStore, { Person } from "./mapStore";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYnJpeDEwMSIsImEiOiJjbDlvOHRnMGUwZmlrM3VsN21hcTU3M2IyIn0.OR9unKhFFMKUmDz7Vsz4TQ";
@@ -12,17 +14,27 @@ const Map: NextPage = () => {
   const ref = useRef<HTMLDivElement | null>(null);
   const [mapData, setMapData] = useState<mapboxgl.Map | null>(null);
 
+  const {
+    center,
+    options,
+    selectedPerson,
+    setSelectedPerson,
+    selectedMarker,
+    setSelectedMarker,
+  } = useStore();
+
   useEffect(() => {
     if (ref?.current && typeof ref?.current !== undefined) {
       const map = new mapboxgl.Map({
         container: ref?.current || "",
-        center: [125.01129701742406, 7.747423241099526],
+        center: center,
         zoom: 17.15,
         pitch: 50.13,
         bearing: 112.02,
         style: "mapbox://styles/mapbox/satellite-streets-v12",
       });
       setMapData(map);
+
       map.on("load", () => {
         map.addSource("mapbox-dem", {
           type: "raster-dem",
@@ -48,6 +60,8 @@ const Map: NextPage = () => {
         };
         map.setFog(fogOpts);
 
+        // Add zoom and rotation controls to the map.
+        map.addControl(new mapboxgl.NavigationControl(), "bottom-right");
         map.addControl(
           new mapboxgl.GeolocateControl({
             positionOptions: {
@@ -55,11 +69,16 @@ const Map: NextPage = () => {
             },
             trackUserLocation: true,
             showUserHeading: true,
-          })
+          }),
+          "bottom-right"
         );
 
-        // Add zoom and rotation controls to the map.
-        map.addControl(new mapboxgl.NavigationControl());
+        // map.addControl(
+        //   new MapboxDirections({
+        //   accessToken: mapboxgl.accessToken
+        //   }),
+        //   'top-left'
+        //   )
         // map.on("move", () => {
         //   console.log("long: ", map.getCenter().lng.toFixed(4));
         //   console.log("lat: ", map.getCenter().lat.toFixed(4));
@@ -72,47 +91,61 @@ const Map: NextPage = () => {
         });
       });
     }
-  }, [ref]);
+  }, [ref, center]);
 
-  if (mapData) {
-    new mapboxgl.Marker()
-      .setLngLat([125.01129701742406, 7.747423241099526])
-      .addTo(mapData);
+  useEffect(() => {
+    if (selectedPerson && mapData) {
+      const { lat, lng } = selectedPerson;
+      const marker = new mapboxgl.Marker().setLngLat([lng, lat]).addTo(mapData);
+      setSelectedMarker(marker);
+      // new mapboxgl.Popup({ closeOnClick: false })
+      //   .setLngLat([lng, lat])
+      //   .setHTML("<h1>Hello World!</h1>")
+      //   .addTo(mapData);
+    }
+  }, [mapData, selectedPerson, setSelectedMarker]);
 
-    new mapboxgl.Marker()
-      .setLngLat([125.0110436472774, 7.747113391397917])
-      .addTo(mapData);
-  }
-  interface person {
-    name: string;
-    long: number;
-    lat: number;
-  }
-  const options = [
-    { value: "Alyssa Deepa", label: "Alyssa Deepa" },
-    { value: "Harsha Isidora", label: "Harsha Isidora" },
-    { value: "Ciar Disha", label: "Ciar Disha" },
-    { value: "Tavish Thandiwe", label: "Tavish Thandiwe" },
-    { value: "Annikki Asia", label: "Annikki Asia" },
-    { value: "Vinay Anisha", label: "Vinay Anisha" },
-    { value: "Vesper Tegwen", label: "Vesper Tegwen" },
-    { value: "Jagoda Latife", label: "Jagoda Latife" },
-    { value: "Anisha Elil", label: "Anisha Elil" },
-    { value: "Lisandro Platon", label: "Lisandro Platon" },
-    { value: "Jehoram Nabopolassar", label: "Jehoram Nabopolassar" },
-    { value: "Sarah Moab", label: "Sarah Moab" },
-  ];
+  useEffect(() => {
+    if (selectedMarker) {
+      mapData?.flyTo({
+        center: selectedMarker?.getLngLat(),
+      });
+    } else {
+      mapData?.flyTo({
+        center: center,
+      });
+    }
+  }, [selectedMarker, mapData, center]);
 
+  const DropdownIndicator = (props: DropdownIndicatorProps) => {
+    return (
+      <components.DropdownIndicator {...props}>
+        <Search />
+      </components.DropdownIndicator>
+    );
+  };
   return (
     <main className="relative flex h-screen w-full items-center justify-center overflow-hidden">
       <Head>
-        <link
+        {/* <link
           href="https://api.mapbox.com/mapbox-gl-js/v2.8.2/mapbox-gl.css"
           rel="stylesheet"
-        />
+        /> */}
       </Head>
-      <div className="absolute top-5 left-5 z-max h-12 w-96 drop-shadow-lg">
-        <Select options={options} placeholder="Search a name..." isSearchable />
+      <div className="absolute top-5 left-5 z-max h-auto w-full pr-10">
+        <div className="h-12 w-full drop-shadow-lg lg:w-96">
+          <Select
+            options={options}
+            components={{ DropdownIndicator }}
+            placeholder="Search a name..."
+            isSearchable
+            isClearable
+            onChange={(e) => {
+              selectedMarker?.remove();
+              setSelectedPerson(e?.value as unknown as Person);
+            }}
+          />
+        </div>
       </div>
       {/* <div className="absolute top-0 left-0 z-50 h-screen w-full max-w-md bg-red-300"></div> */}
       <div className="h-screen w-full overflow-hidden" ref={ref} />
