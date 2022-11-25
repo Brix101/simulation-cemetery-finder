@@ -9,26 +9,29 @@ export interface ButtonProps
 
 type Props = ButtonProps & {
   isLoading?: boolean;
+  isSmall?: boolean;
 };
 
 const PrimaryButton: FC<Props> = (props) => {
-  const { isLoading, ...rest } = props;
+  const { isLoading, isSmall, ...rest } = props;
   return (
     <button
-      className={`flex h-12 w-full items-center justify-center rounded-lg  border-2
+      className={`flex  w-full items-center justify-center rounded-lg  border-2
       border-transparent  hover:bg-dark-blue disabled:cursor-default disabled:bg-gray-600
       ${
         isLoading
           ? "cursor-default bg-dark-blue"
           : "bg-medium-blue active:border-light-blue"
-      }`}
+      }
+      ${isSmall ? "h-10" : "h-12"}
+      `}
       {...rest}
     >
       {isLoading ? (
         <div className="h-8 w-8 animate-spin rounded-full border border-b-2  border-gray-300 border-b-white border-l-white"></div>
       ) : (
         <span className="font-sans text-base font-bold capitalize text-white">
-          {props.children ?? "Primary Button"}
+          {rest.children ?? "Primary Button"}
         </span>
       )}
     </button>

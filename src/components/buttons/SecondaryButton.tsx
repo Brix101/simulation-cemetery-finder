@@ -7,15 +7,20 @@ export interface ButtonProps
     >,
     React.AriaAttributes {}
 
-const SecondaryButton: FC<ButtonProps> = (props) => {
+type Props = ButtonProps & {
+  isSmall?: boolean;
+};
+const SecondaryButton: FC<Props> = (props) => {
+  const { isSmall, ...rest } = props;
   return (
     <button
-      className="flex h-12 w-full items-center justify-center rounded-lg  border
-      border-gray-400 bg-white hover:border-light-blue active:border-2 disabled:cursor-default disabled:bg-gray-600"
-      {...props}
+      className={`flex w-full items-center justify-center rounded-lg  border
+      border-gray-400 bg-white hover:border-light-blue active:border-2 disabled:cursor-default disabled:bg-gray-600 
+      ${isSmall ? "h-10" : "h-12"}`}
+      {...rest}
     >
       <span className="font-sans text-base font-bold capitalize text-dark-blue">
-        {props.children ?? "Secondary Button"}
+        {rest.children ?? "Secondary Button"}
       </span>
     </button>
   );
