@@ -15,7 +15,7 @@ const DistructiveButton: FC<ButtonProps> = (props) => {
       {...props}
     >
       <span className="font-sans text-base font-bold capitalize text-white">
-        {props.children ?? "Distructive Button"}
+        {props.children ?? "Destructive Button"}
       </span>
     </button>
   );
