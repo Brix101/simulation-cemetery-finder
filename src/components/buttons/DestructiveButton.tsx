@@ -10,7 +10,7 @@ export interface ButtonProps
 const DistructiveButton: FC<ButtonProps> = (props) => {
   return (
     <button
-      className="flex h-12 w-full items-center justify-center rounded-lg  border-2 border-transparent bg-red-600 hover:bg-red-800 active:border-red-400 disabled:cursor-default disabled:bg-gray-600
+      className="flex h-12 w-full items-center justify-center rounded-lg  border-2 border-transparent bg-ruby-red hover:bg-ruby-red-2 active:border-red-400 disabled:cursor-default disabled:bg-gray-600
     "
       {...props}
     >

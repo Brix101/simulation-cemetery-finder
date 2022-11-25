@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+input[type="password"]:not(:placeholder-shown) {
+  font-size: 48px;
+  color: #01aed6;
+  letter-spacing: -2px;
+}
