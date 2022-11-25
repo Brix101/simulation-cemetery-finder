@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import dynamic from "next/dynamic";
 
-const Map = dynamic(() => import("../components/Map"), {
+const Map = dynamic(() => import("@/componentsMap"), {
   ssr: false,
 });
 
