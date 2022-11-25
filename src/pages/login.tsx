@@ -7,7 +7,7 @@ const login: NextPage = () => {
     <main className="flex h-screen w-full items-center justify-center bg-blue-50">
       <div className="w-96 space-y-5">
         <PrimaryButton isLoading />
-        <SecondaryButton>Secondary Button</SecondaryButton>
+        <SecondaryButton>sdfd</SecondaryButton>
       </div>
     </main>
   );

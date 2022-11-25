@@ -14,7 +14,7 @@ const SecondaryButton: FC<ButtonProps> = (props) => {
       border-green-500 bg-white hover:border-green-700 active:border-2 disabled:cursor-default disabled:bg-gray-600"
       {...props}
     >
-      <span className="font-sans text-base font-bold text-gray-900">
+      <span className="font-sans text-base font-bold capitalize text-gray-900">
         {props.children ?? "Secondary Button"}
       </span>
     </button>

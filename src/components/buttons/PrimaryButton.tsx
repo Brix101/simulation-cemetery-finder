@@ -27,7 +27,7 @@ const PrimaryButton: FC<Props> = (props) => {
       {isLoading ? (
         <div className="h-8 w-8 animate-spin rounded-full border border-b-2 border-l-2 border-gray-300 border-b-white border-l-white"></div>
       ) : (
-        <span className="font-sans text-base font-bold text-white">
+        <span className="font-sans text-base font-bold capitalize text-white">
           {props.children ?? "Primary Button"}
         </span>
       )}
