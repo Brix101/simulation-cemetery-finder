@@ -15,7 +15,7 @@ const SecondaryButton: FC<Props> = (props) => {
   return (
     <button
       className={`flex w-full items-center justify-center rounded-lg  border
-      border-gray-400 bg-white hover:border-light-blue active:border-2 disabled:cursor-default disabled:bg-gray-600 
+      border-gray-400 bg-white hover:border-light-blue active:border-2 active:border-light-blue-2 disabled:cursor-default disabled:bg-gray-600 
       ${isSmall ? "h-10" : "h-12"}`}
       {...rest}
     >

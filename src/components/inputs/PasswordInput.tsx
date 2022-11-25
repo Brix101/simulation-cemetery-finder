@@ -20,7 +20,7 @@ const PasswordInput: FC<InputProps> = (props) => {
         {...props}
       />
       <button
-        className="absolute right-2 z-10 h-fit bg-white text-gray-500 hover:text-light-blue"
+        className="absolute right-2 z-10 h-fit  text-gray-500 hover:text-light-blue"
         onClick={() => setOpen(!open)}
       >
         {open ? <EyeOff /> : <Eye />}
