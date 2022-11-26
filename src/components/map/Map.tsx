@@ -96,12 +96,12 @@ const Map: NextPage = () => {
 
   useEffect(() => {
     if (map && tempMarker === undefined) {
-      map.on("click", (e) => {
-        const newTempMarker = new mapboxgl.Marker({ draggable: true })
-          .setLngLat([e.lngLat.lng, e.lngLat.lat])
-          .addTo(map);
-        setTempMarker(newTempMarker);
-      });
+      // map.on("click", (e) => {
+      //   const newTempMarker = new mapboxgl.Marker({ draggable: true })
+      //     .setLngLat([e.lngLat.lng, e.lngLat.lat])
+      //     .addTo(map);
+      //   setTempMarker(newTempMarker);
+      // });
     }
   }, [map, tempMarker, setTempMarker]);
 
