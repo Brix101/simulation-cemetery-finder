@@ -2,10 +2,7 @@ import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import type { NextPage } from "next";
 import { useEffect, useRef } from "react";
-import { Home, Search } from "react-feather";
-import Select from "react-select";
-import { SecondaryButton } from "../buttons";
-import useStore, { Person } from "./mapStore";
+import useStore from "./mapStore";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYnJpeDEwMSIsImEiOiJjbDlvOHRnMGUwZmlrM3VsN21hcTU3M2IyIn0.OR9unKhFFMKUmDz7Vsz4TQ";
@@ -16,9 +13,7 @@ const Map: NextPage = () => {
     map,
     setMap,
     center,
-    options,
     selectedPerson,
-    setSelectedPerson,
     selectedMarker,
     setSelectedMarker,
     tempMarker,
@@ -116,34 +111,13 @@ const Map: NextPage = () => {
     });
   }
 
-  return (
-    <div className="relative flex h-screen w-full items-center justify-center overflow-hidden">
-      <div className="h-screen w-full overflow-hidden" ref={ref}>
-        <div className="absolute top-5 left-5 z-10 flex h-auto w-full items-center gap-2 pr-10">
-          <div className="relative h-10 w-full drop-shadow-lg md:w-96">
-            <Select
-              options={options}
-              placeholder="Search a name..."
-              isSearchable
-              isClearable
-              onChange={(e) => {
-                if (e?.value !== selectedPerson) {
-                  selectedMarker?.remove();
-                  setSelectedPerson(e?.value as Person);
-                }
-              }}
-            />
-            <div className="pointer-events-none absolute top-2 right-2 w-6 bg-white">
-              <Search />
-            </div>
-          </div>
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white drop-shadow-lg">
-            <SecondaryButton isSmall onClick={() => map?.flyTo(center)}>
-              <Home />
-            </SecondaryButton>
-          </div>
-        </div>
-        <div
+  return <div className="h-screen w-full overflow-hidden" ref={ref} />;
+};
+
+export default Map;
+
+{
+  /* <div
           className={`absolute top-0 left-0 z-20 h-screen w-full max-w-md 
         ${tempMarker ? "translate-x-0" : "-translate-x-full"}
         bg-white`}
@@ -158,10 +132,5 @@ const Map: NextPage = () => {
             close
           </button>
           {tempMarker?.getLngLat().lat}
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default Map;
+        </div> */
+}
