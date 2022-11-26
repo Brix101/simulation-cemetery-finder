@@ -127,8 +127,10 @@ const Map: NextPage = () => {
               isSearchable
               isClearable
               onChange={(e) => {
-                selectedMarker?.remove();
-                setSelectedPerson(e?.value as Person);
+                if (e?.value !== selectedPerson) {
+                  selectedMarker?.remove();
+                  setSelectedPerson(e?.value as Person);
+                }
               }}
             />
             <div className="pointer-events-none absolute top-2 right-2 w-6 bg-white">
