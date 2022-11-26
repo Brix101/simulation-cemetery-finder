@@ -1,7 +1,10 @@
+import {
+  DestructiveButton,
+  PrimaryButton,
+  SecondaryButton,
+} from "@/componentsbuttons";
+import { PasswordInput, PrimaryInput } from "@/componentsinputs";
 import React, { useState } from "react";
-import { PrimaryButton, SecondaryButton } from "../buttons";
-import DistructiveButton from "../buttons/DestructiveButton";
-import { PasswordInput, PrimaryInput } from "../inputs";
 
 function LoginForm() {
   const [loading, setLoading] = useState<boolean>(false);
@@ -16,7 +19,7 @@ function LoginForm() {
         }}
       />
       <SecondaryButton />
-      <DistructiveButton
+      <DestructiveButton
         onClick={() => {
           setLoading(false);
         }}

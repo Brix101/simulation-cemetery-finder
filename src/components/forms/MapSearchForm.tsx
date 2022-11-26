@@ -1,8 +1,8 @@
-import { SecondaryButton } from "@/components/buttons";
+import { SecondaryButton } from "@/componentsbuttons";
+import useStore, { Person } from "@/componentsmap/mapStore";
 import React from "react";
 import { Home, Search } from "react-feather";
 import Select from "react-select";
-import useStore, { Person } from "../map/mapStore";
 
 function MapSearchForm() {
   const {
