@@ -2,7 +2,7 @@ import { NextPage } from "next";
 import dynamic from "next/dynamic";
 import React from "react";
 
-const LoginForm = dynamic(() => import("@/components/LoginForm"), {
+const LoginForm = dynamic(() => import("@/components/forms/LoginForm"), {
   ssr: false,
 });
 

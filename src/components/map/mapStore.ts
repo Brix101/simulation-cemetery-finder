@@ -12,22 +12,38 @@ interface Option {
   label: string;
 }
 
-interface MapState {
+interface Center {
   center: mapboxgl.LngLatLike;
-  setCenter: (LngLat: mapboxgl.LngLatLike) => void;
+  zoom: number;
+  pitch: number;
+  bearing: number;
+}
+
+interface MapState {
+  map: mapboxgl.Map | null;
+  setMap: (ma: mapboxgl.Map | null) => void;
+  center: Center;
   selectedPerson: Person | undefined;
   setSelectedPerson: (person: Person) => void;
   selectedMarker: mapboxgl.Marker | undefined;
   setSelectedMarker: (marker: mapboxgl.Marker) => void;
+  tempMarker: mapboxgl.Marker | undefined;
+  setTempMarker: (marker: mapboxgl.Marker | undefined) => void;
   options: Option[];
 }
 
 const useStore = create<MapState>((set) => ({
-  center: [125.01129701742406, 7.747423241099526],
-  setCenter: (LngLat) =>
+  map: null,
+  setMap: (map: mapboxgl.Map | null) =>
     set(() => ({
-      center: LngLat,
+      map: map,
     })),
+  center: {
+    center: [125.01129701742406, 7.747423241099526],
+    zoom: 17.15,
+    pitch: 50.13,
+    bearing: 112.02,
+  },
   selectedPerson: undefined,
   setSelectedPerson: (person) =>
     set(() => ({
@@ -37,6 +53,11 @@ const useStore = create<MapState>((set) => ({
   setSelectedMarker: (marker) =>
     set(() => ({
       selectedMarker: marker,
+    })),
+  tempMarker: undefined,
+  setTempMarker: (marker) =>
+    set(() => ({
+      tempMarker: marker,
     })),
   options: [
     {

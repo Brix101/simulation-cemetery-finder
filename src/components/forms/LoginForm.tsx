@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { PrimaryButton, SecondaryButton } from "./buttons";
-import DistructiveButton from "./buttons/DestructiveButton";
-import { PasswordInput, PrimaryInput } from "./inputs";
+import { PrimaryButton, SecondaryButton } from "../buttons";
+import DistructiveButton from "../buttons/DestructiveButton";
+import { PasswordInput, PrimaryInput } from "../inputs";
 
 function LoginForm() {
   const [loading, setLoading] = useState<boolean>(false);
