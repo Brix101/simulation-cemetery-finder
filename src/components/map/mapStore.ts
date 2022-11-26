@@ -32,7 +32,7 @@ interface MapState {
   options: Option[];
 }
 
-const useStore = create<MapState>((set) => ({
+const useMapStore = create<MapState>((set) => ({
   map: null,
   setMap: (map: mapboxgl.Map | null) =>
     set(() => ({
@@ -159,4 +159,4 @@ const useStore = create<MapState>((set) => ({
   ],
 }));
 
-export default useStore;
+export default useMapStore;

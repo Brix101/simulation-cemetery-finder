@@ -1,8 +1,10 @@
-import { SecondaryButton } from "@/componentsbuttons";
-import useStore, { Person } from "@/componentsmap/mapStore";
+import { PrimaryButton, SecondaryButton } from "@/componentsbuttons";
+import useMapStore, { Person } from "@/componentsmap/mapStore";
+import { signIn } from "next-auth/react";
 import React from "react";
 import { Home, Search } from "react-feather";
 import Select from "react-select";
+import useUserStore from "./userStore";
 
 function MapSearchForm() {
   const {
@@ -12,7 +14,15 @@ function MapSearchForm() {
     selectedMarker,
     map,
     center,
-  } = useStore();
+  } = useMapStore();
+
+  const { setIsLogin } = useUserStore();
+
+  const handleSignInClick = () => {
+    // setIsLogin(true);
+    signIn();
+  };
+
   return (
     <div className="absolute top-2 left-2 z-10 flex h-auto w-full items-center gap-2 pr-4">
       <div className="relative h-10 w-full drop-shadow-lg md:w-96">
@@ -36,6 +46,11 @@ function MapSearchForm() {
         <SecondaryButton isSmall onClick={() => map?.flyTo(center)}>
           <Home />
         </SecondaryButton>
+      </div>
+      <div className="w-28">
+        <PrimaryButton isSmall onClick={handleSignInClick}>
+          Login
+        </PrimaryButton>
       </div>
     </div>
   );

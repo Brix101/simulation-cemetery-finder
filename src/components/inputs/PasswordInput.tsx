@@ -14,7 +14,7 @@ const PasswordInput: FC<InputProps> = (props) => {
     <div className="relative flex h-fit w-full items-center overflow-hidden">
       <input
         type={open ? "text" : "password"}
-        className="pr-30 h-10 w-full rounded-lg border-2 border-light-blue bg-white pl-4 pr-10 font-sans text-base text-gray-900 outline-none placeholder-shown:border-gray-400
+        className="pr-30 h-12 w-full rounded-lg border-2 border-light-blue bg-white pl-4 pr-10 font-sans text-base text-gray-900 outline-none placeholder-shown:border-gray-400
     hover:border-light-blue focus:border-light-blue"
         placeholder={props.placeholder ?? "Password field"}
         {...props}

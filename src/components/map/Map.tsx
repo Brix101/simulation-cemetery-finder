@@ -2,7 +2,7 @@ import { env } from "@/env/client.mjs";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { useEffect, useRef } from "react";
-import useStore from "./mapStore";
+import useMapStore from "./mapStore";
 
 mapboxgl.accessToken = env.NEXT_PUBLIC_MAPBOX_TOKEN;
 
@@ -17,7 +17,7 @@ const Map = () => {
     setSelectedMarker,
     tempMarker,
     setTempMarker,
-  } = useStore();
+  } = useMapStore();
 
   useEffect(() => {
     if (ref?.current && typeof ref?.current !== undefined) {
