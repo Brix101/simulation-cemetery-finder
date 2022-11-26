@@ -14,7 +14,7 @@ function MapSearchForm() {
     center,
   } = useStore();
   return (
-    <div className="absolute top-2 left-2 z-10 flex h-auto w-full items-center gap-2 pr-10">
+    <div className="absolute top-2 left-2 z-10 flex h-auto w-full items-center gap-2 pr-4">
       <div className="relative h-10 w-full drop-shadow-lg md:w-96">
         <Select
           options={options}
