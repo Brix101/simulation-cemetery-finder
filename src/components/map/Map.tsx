@@ -1,13 +1,12 @@
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import type { NextPage } from "next";
 import { useEffect, useRef } from "react";
 import useStore from "./mapStore";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYnJpeDEwMSIsImEiOiJjbDlvOHRnMGUwZmlrM3VsN21hcTU3M2IyIn0.OR9unKhFFMKUmDz7Vsz4TQ";
 
-const Map: NextPage = () => {
+const Map = () => {
   const ref = useRef<HTMLDivElement | null>(null);
   const {
     map,
