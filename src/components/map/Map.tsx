@@ -27,7 +27,7 @@ const Map = () => {
     setOptions,
   } = useMapStore();
 
-  const { view } = useMarkerStore();
+  const { view, markerView } = useMarkerStore();
 
   useEffect(() => {
     if (ref?.current && typeof ref?.current !== undefined) {
@@ -138,7 +138,11 @@ const Map = () => {
       const newTempMarker = new mapboxgl.Marker({
         draggable: true,
       }).setLngLat([e.lngLat.lng, e.lngLat.lat]);
-      if (router.pathname.includes("admin") && view === "marker") {
+      if (
+        router.pathname.includes("admin") &&
+        view === "marker" &&
+        !markerView
+      ) {
         setTempMarker(newTempMarker);
       }
     });

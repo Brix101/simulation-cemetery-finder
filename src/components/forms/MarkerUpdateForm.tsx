@@ -1,6 +1,8 @@
-import { AddMarkerInput, UpdateMarkerInput } from "@/schema/marker.schema";
+import { UpdateMarkerInput } from "@/schema/marker.schema";
+import { trpc } from "@/utils/trpc";
 import { MarkerType } from "@prisma/client";
-import React from "react";
+import mapboxgl from "mapbox-gl";
+import React, { useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Controller, useForm } from "react-hook-form";
@@ -12,22 +14,27 @@ import useMarkerStore from "../marker/markerStore";
 
 function MarkerUpdateForm() {
   const { tempMarker, setTempMarker } = useMapStore();
-  const { setView } = useMarkerStore();
+  const { setView, markerView, setMarkerView } = useMarkerStore();
   const {
     register,
     control,
     handleSubmit,
     watch,
     getValues,
-    formState: { isValid, isDirty },
+    reset,
+    formState: { isValid },
   } = useForm<UpdateMarkerInput>();
 
   watch();
-
+  const { mutate, isLoading } = trpc.marker.updateMarker.useMutation({
+    onSuccess: () => {
+      handleCancelClick();
+    },
+  });
   const areaType = (Object.keys(MarkerType) as (keyof typeof MarkerType)[]).map(
     (enumKey) => {
       return {
-        label: MarkerType[enumKey].toLowerCase(),
+        label: MarkerType[enumKey].toLowerCase().replace("_", " "),
         value: MarkerType[enumKey],
       };
     }
@@ -37,11 +44,39 @@ function MarkerUpdateForm() {
     tempMarker?.remove();
     setView("list");
     setTempMarker(undefined);
+    setMarkerView(undefined);
   };
 
   function onSubmit(values: UpdateMarkerInput) {
-    // mutate({ ...values });
+    mutate({ ...values, ...tempMarker?.getLngLat() });
   }
+
+  useEffect(() => {
+    if (markerView) {
+      reset({
+        apartmentColumn: markerView.apartmentColumn,
+        apartmentRow: markerView.apartmentColumn,
+        bornDate: markerView.bornDate as Date,
+        diedDate: markerView.diedDate as Date,
+        familyAddress: markerView.familyAddress,
+        familyNumber: markerView.familyNumber,
+        firstName: markerView.firstName,
+        id: markerView.id,
+        lastName: markerView.lastName,
+        markerType: markerView.markerType,
+        middleName: markerView.middleName,
+      });
+    }
+  }, [markerView, reset, setTempMarker]);
+
+  useEffect(() => {
+    if (markerView && !tempMarker) {
+      const newTempMarker = new mapboxgl.Marker({
+        draggable: true,
+      }).setLngLat([markerView.lng, markerView.lat]);
+      setTempMarker(newTempMarker);
+    }
+  }, [markerView, tempMarker]);
 
   return (
     <div className="h-full w-full bg-white p-5">
@@ -49,6 +84,7 @@ function MarkerUpdateForm() {
         onSubmit={handleSubmit(onSubmit)}
         className="flex h-full w-full flex-col justify-between"
       >
+        <h1 className="text-2xl font-bold text-dark-blue">Update marker</h1>
         <div className="space-y-2">
           <div className="flex gap-2">
             <div>
@@ -58,7 +94,7 @@ function MarkerUpdateForm() {
               <PrimaryInput
                 isSmall
                 placeholder="First Name"
-                {...register("firstName")}
+                register={register("firstName")}
               />
             </div>
             <div>
@@ -68,7 +104,7 @@ function MarkerUpdateForm() {
               <PrimaryInput
                 isSmall
                 placeholder="Middle Name"
-                {...register("middleName")}
+                register={register("middleName")}
               />
             </div>
             <div>
@@ -78,7 +114,7 @@ function MarkerUpdateForm() {
               <PrimaryInput
                 isSmall
                 placeholder="Last Name"
-                {...register("lastName")}
+                register={register("lastName")}
               />
             </div>
           </div>
@@ -89,7 +125,7 @@ function MarkerUpdateForm() {
             <PrimaryInput
               isSmall
               placeholder="Family Contact Number"
-              {...register("familyNumber")}
+              register={register("familyNumber")}
             />
           </div>
           <div>
@@ -99,7 +135,7 @@ function MarkerUpdateForm() {
             <PrimaryInput
               isSmall
               placeholder="Family Address"
-              {...register("familyAddress")}
+              register={register("familyAddress")}
             />
           </div>
           <div className="grid grid-cols-2 gap-2">
@@ -113,12 +149,15 @@ function MarkerUpdateForm() {
                 render={({ field }) => (
                   <DatePicker
                     className="h-10 w-full rounded-lg border-2 border-light-blue bg-white px-4 font-sans text-base text-gray-900 outline-none placeholder-shown:border-gray-400 hover:border-light-blue
-                focus:border-light-blue disabled:border-gray-200"
+              focus:border-light-blue disabled:border-gray-200"
                     placeholderText="Select date"
                     onChange={(date) => field.onChange(date)}
                     selected={field.value}
                     dateFormat="MMMM-dd-yyyy"
                     required
+                    onKeyDown={(e) => {
+                      e.preventDefault();
+                    }}
                   />
                 )}
               />
@@ -133,12 +172,15 @@ function MarkerUpdateForm() {
                 render={({ field }) => (
                   <DatePicker
                     className="h-10 w-full rounded-lg border-2 border-light-blue bg-white px-4 font-sans text-base text-gray-900 outline-none placeholder-shown:border-gray-400 hover:border-light-blue
-                focus:border-light-blue disabled:border-gray-200"
+              focus:border-light-blue disabled:border-gray-200"
                     placeholderText="Select date"
                     onChange={(date) => field.onChange(date)}
                     selected={field.value}
                     dateFormat="MMMM-dd-yyyy"
                     required
+                    onKeyDown={(e) => {
+                      e.preventDefault();
+                    }}
                   />
                 )}
               />
@@ -170,9 +212,10 @@ function MarkerUpdateForm() {
                 Apartment Column
               </label>
               <PrimaryInput
+                type={"number"}
                 isSmall
                 placeholder="Column"
-                {...register("apartmentColumn")}
+                register={register("apartmentColumn")}
               />
             </div>
             <div>
@@ -180,9 +223,10 @@ function MarkerUpdateForm() {
                 Apartment Row
               </label>
               <PrimaryInput
+                type={"number"}
                 isSmall
                 placeholder="Row"
-                {...register("apartmentRow")}
+                register={register("apartmentRow")}
               />
             </div>
             {getValues("markerType") !== "Apartment" ? (
@@ -198,8 +242,8 @@ function MarkerUpdateForm() {
             </SecondaryButton>
           </div>
           <div className="w-44">
-            <PrimaryButton isSmall disabled={!isValid && !isDirty}>
-              Add
+            <PrimaryButton isSmall disabled={!isValid} isLoading={isLoading}>
+              Update
             </PrimaryButton>
           </div>
         </div>

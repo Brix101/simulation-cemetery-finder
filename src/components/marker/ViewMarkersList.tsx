@@ -10,7 +10,7 @@ import LinearLoading from "../LinearLoading";
 import useMarkerStore from "./markerStore";
 
 function ViewMarkersList() {
-  const { setView } = useMarkerStore();
+  const { setView, setMarkerView } = useMarkerStore();
   const [search, setSearch] = useState<SearchMarkerInput>({ searchInput: "" });
   const debouncedValue = useDebounce<SearchMarkerInput>(search, 500);
 
@@ -84,7 +84,11 @@ function ViewMarkersList() {
                 <tr key={i} className={`${TableStyle(i)}`}>
                   <th
                     scope="row"
-                    className="whitespace-nowrap py-4 px-6 font-medium capitalize text-gray-900 dark:text-white"
+                    className="cursor-pointer select-none whitespace-nowrap py-4 px-6 font-medium capitalize text-dark-blue-2 hover:text-dark-blue hover:underline "
+                    onClick={() => {
+                      setMarkerView(marker);
+                      setView("marker");
+                    }}
                   >
                     {marker?.lastName +
                       ", " +

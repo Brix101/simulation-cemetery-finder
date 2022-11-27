@@ -18,7 +18,7 @@ const PrimaryInput: FC<Props> = (props) => {
   const { isSmall, register, ...rest } = props;
   return (
     <input
-      className={`w-full rounded-lg border-2 border-light-blue bg-white px-4 font-sans text-base text-gray-900 outline-none placeholder-shown:border-gray-400 hover:border-light-blue
+      className={`w-full appearance-none rounded-lg border-2 border-light-blue bg-white px-4 font-sans text-base text-gray-900 outline-none placeholder-shown:border-gray-400 hover:border-light-blue
       focus:border-light-blue disabled:border-gray-200
       ${isSmall ? "h-10" : "h-12 "}`}
       placeholder={props.placeholder ?? "Input field"}

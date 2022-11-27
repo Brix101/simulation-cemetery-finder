@@ -36,7 +36,7 @@ function MarkerAddForm() {
   const areaType = (Object.keys(MarkerType) as (keyof typeof MarkerType)[]).map(
     (enumKey) => {
       return {
-        label: MarkerType[enumKey].toLowerCase(),
+        label: MarkerType[enumKey].toLowerCase().replace("_", " "),
         value: MarkerType[enumKey],
       };
     }
@@ -59,6 +59,7 @@ function MarkerAddForm() {
         onSubmit={handleSubmit(onSubmit)}
         className="flex h-full w-full flex-col justify-between"
       >
+        <h1 className="text-2xl font-bold text-dark-blue">Add new marker</h1>
         <div className="space-y-2">
           <div className="flex gap-2">
             <div>
@@ -186,6 +187,7 @@ function MarkerAddForm() {
                 Apartment Column
               </label>
               <PrimaryInput
+                type={"number"}
                 isSmall
                 placeholder="Column"
                 register={register("apartmentColumn")}
@@ -196,6 +198,7 @@ function MarkerAddForm() {
                 Apartment Row
               </label>
               <PrimaryInput
+                type={"number"}
                 isSmall
                 placeholder="Row"
                 register={register("apartmentRow")}
