@@ -25,9 +25,7 @@ ${selectedPerson ? "translate-x-0" : "-translate-x-full"}`}
           </SecondaryButton>
         </div>
         <div className="h-full w-full flex-1 space-y-5  text-dark-blue">
-          <h1 className="font-sans text-base font-bold">
-            Deceased Information:
-          </h1>
+          <h1 className="font-sans text-base font-bold">Information:</h1>
           <div className="flex-1 space-y-2 pb-5">
             <div className="flex w-full items-center justify-start gap-2">
               <label className="font-sans text-sm text-gray-700">name: </label>
