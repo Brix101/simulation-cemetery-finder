@@ -3,7 +3,7 @@ import useMapStore from "@/componentsmap/mapStore";
 import { trpc } from "@/utils/trpc";
 import { Marker } from "@prisma/client";
 import Image from "next/image";
-import React, { useEffect } from "react";
+import React from "react";
 import { Search } from "react-feather";
 import Select from "react-select";
 import useUserStore from "./userStore";
@@ -16,30 +16,9 @@ function MapSearchForm() {
     selectedMarker,
     map,
     center,
-    setOptions,
   } = useMapStore();
 
   const { setIsLogin } = useUserStore();
-
-  const { data } = trpc.marker.getAll.useQuery();
-
-  useEffect(() => {
-    if (data) {
-      setOptions(
-        data.map((markerData) => {
-          return {
-            value: markerData,
-            label:
-              markerData.lastName +
-              ", " +
-              markerData.firstName +
-              " " +
-              markerData.middleName,
-          };
-        })
-      );
-    }
-  }, [data]);
 
   const handleSignInClick = () => {
     setIsLogin(true);

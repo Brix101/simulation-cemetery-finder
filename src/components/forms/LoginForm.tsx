@@ -1,11 +1,13 @@
 import { PrimaryButton, SecondaryButton } from "@/componentsbuttons";
 import { PasswordInput, PrimaryInput } from "@/componentsinputs";
+import { useRouter } from "next/router";
 import React, { useRef, useState } from "react";
 import { X } from "react-feather";
 import { useOnClickOutside } from "usehooks-ts";
 import useUserStore from "./userStore";
 
 function LoginForm() {
+  const router = useRouter();
   const ref = useRef(null);
   const [loading, setLoading] = useState<boolean>(false);
   const { isLogin, setIsLogin } = useUserStore();
@@ -57,6 +59,7 @@ function LoginForm() {
               isLoading={loading}
               onClick={() => {
                 setLoading(true);
+                router.push("/admin");
               }}
             >
               Login

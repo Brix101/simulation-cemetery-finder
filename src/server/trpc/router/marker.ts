@@ -1,19 +1,29 @@
 import {
   addMarkerSchema,
   deleteMarkerSchema,
+  searchMarkerSchema,
   updateMarkerSchema,
 } from "@/schema/marker.schema";
 import * as trpc from "@trpc/server";
 import { publicProcedure, router } from "../trpc";
 
 export const markerRouter = router({
-  getAll: publicProcedure.query(async ({ ctx }) => {
-    return await ctx.prisma.marker.findMany({
-      orderBy: {
-        lastName: "asc",
-      },
-    });
-  }),
+  getAll: publicProcedure
+    .input(searchMarkerSchema)
+    .query(async ({ ctx, input }) => {
+      return await ctx.prisma.marker.findMany({
+        where: {
+          OR: [
+            { firstName: { contains: input.searchInput ?? "" } },
+            { middleName: { contains: input.searchInput ?? "" } },
+            { lastName: { contains: input.searchInput ?? "" } },
+          ],
+        },
+        orderBy: {
+          lastName: "asc",
+        },
+      });
+    }),
   addMarker: publicProcedure
     .input(addMarkerSchema)
     .mutation(async ({ ctx, input }) => {

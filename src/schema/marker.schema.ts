@@ -32,8 +32,14 @@ export const deleteMarkerSchema = z.object({
   id: z.number(),
 });
 
+export const searchMarkerSchema = z.object({
+  searchInput: z.string().nullable(),
+});
+
 export type AddMarkerInput = z.TypeOf<typeof addMarkerSchema>;
 
 export type UpdateMarkerInput = z.TypeOf<typeof updateMarkerSchema>;
 
 export type DeleteMarkerInput = z.TypeOf<typeof deleteMarkerSchema>;
+
+export type SearchMarkerInput = z.TypeOf<typeof searchMarkerSchema>;

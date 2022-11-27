@@ -1,12 +1,18 @@
 import { env } from "@/env/client.mjs";
+import { trpc } from "@/utils/trpc";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
+import { useRouter } from "next/router";
 import { useEffect, useRef } from "react";
 import useMapStore from "./mapStore";
 
 mapboxgl.accessToken = env.NEXT_PUBLIC_MAPBOX_TOKEN;
 
 const Map = () => {
+  const router = useRouter();
+
+  const { data } = trpc.marker.getAll.useQuery({ searchInput: "" });
+
   const ref = useRef<HTMLDivElement | null>(null);
   const {
     map,
@@ -17,6 +23,7 @@ const Map = () => {
     setSelectedMarker,
     tempMarker,
     setTempMarker,
+    setOptions,
   } = useMapStore();
 
   useEffect(() => {
@@ -74,6 +81,24 @@ const Map = () => {
   }, [ref, center, setMap]);
 
   useEffect(() => {
+    if (data) {
+      setOptions(
+        data.map((markerData) => {
+          return {
+            value: markerData,
+            label:
+              markerData.lastName +
+              ", " +
+              markerData.firstName +
+              " " +
+              markerData.middleName,
+          };
+        })
+      );
+    }
+  }, [data, setOptions]);
+
+  useEffect(() => {
     if (selectedPerson && map) {
       const { lat, lng } = selectedPerson;
       const marker = new mapboxgl.Marker().setLngLat([lng, lat]).addTo(map);
@@ -114,26 +139,7 @@ const Map = () => {
     });
   }
 
-  return <div className="h-screen w-full overflow-hidden" ref={ref} />;
+  return <div className="h-full w-full overflow-hidden" ref={ref} />;
 };
 
 export default Map;
-
-{
-  /* <div
-          className={`absolute top-0 left-0 z-20 h-screen w-full max-w-md 
-        ${tempMarker ? "translate-x-0" : "-translate-x-full"}
-        bg-white`}
-        >
-          <button
-            className="h-20 w-20 bg-white"
-            onClick={() => {
-              setTempMarker(undefined);
-              tempMarker?.remove();
-            }}
-          >
-            close
-          </button>
-          {tempMarker?.getLngLat().lat}
-        </div> */
-}
