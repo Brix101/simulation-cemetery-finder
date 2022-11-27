@@ -4,6 +4,7 @@ import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { useRouter } from "next/router";
 import { useEffect, useRef } from "react";
+import useMarkerStore from "../marker/markerStore";
 import useMapStore from "./mapStore";
 
 mapboxgl.accessToken = env.NEXT_PUBLIC_MAPBOX_TOKEN;
@@ -25,6 +26,8 @@ const Map = () => {
     setTempMarker,
     setOptions,
   } = useMapStore();
+
+  const { view } = useMarkerStore();
 
   useEffect(() => {
     if (ref?.current && typeof ref?.current !== undefined) {
@@ -135,7 +138,9 @@ const Map = () => {
       const newTempMarker = new mapboxgl.Marker({
         draggable: true,
       }).setLngLat([e.lngLat.lng, e.lngLat.lat]);
-      // setTempMarker(newTempMarker);
+      if (router.pathname.includes("admin") && view === "marker") {
+        setTempMarker(newTempMarker);
+      }
     });
   }
 

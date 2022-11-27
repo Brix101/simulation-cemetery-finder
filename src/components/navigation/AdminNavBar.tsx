@@ -22,7 +22,7 @@ function AdminNavBar() {
           <h1 className="font-sans text-2xl font-bold">
             Maramag Memorial Park
           </h1>
-          <span className="font-mono text-sm">Maramag, Bukidnon</span>
+          <span className="font-sans text-xs">Maramag, Bukidnon</span>
         </div>
       </Link>
       <div className="flex items-center gap-10">

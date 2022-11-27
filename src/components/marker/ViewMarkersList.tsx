@@ -7,8 +7,10 @@ import { useDebounce } from "usehooks-ts";
 import { PrimaryButton } from "../buttons";
 import { PrimaryInput } from "../inputs";
 import LinearLoading from "../LinearLoading";
+import useMarkerStore from "./markerStore";
 
 function ViewMarkersList() {
+  const { setView } = useMarkerStore();
   const [search, setSearch] = useState<SearchMarkerInput>({ searchInput: "" });
   const debouncedValue = useDebounce<SearchMarkerInput>(search, 500);
 
@@ -23,6 +25,7 @@ function ViewMarkersList() {
     }
     return "bg-white border-b dark:bg-gray-900 dark:border-gray-700`";
   };
+
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearch({ searchInput: event.target.value });
   };
@@ -40,7 +43,7 @@ function ViewMarkersList() {
             />
           </div>
           <div className="w-28">
-            <PrimaryButton isSmall>
+            <PrimaryButton isSmall onClick={() => setView("marker")}>
               <span className="flex items-center gap-2">
                 <Plus className="text-white" /> Add
               </span>

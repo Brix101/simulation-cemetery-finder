@@ -1,3 +1,4 @@
+import useMarkerStore from "@/components/marker/markerStore";
 import AdminNavBar from "@/components/navigation/AdminNavBar";
 import { NextPage } from "next";
 import dynamic from "next/dynamic";
@@ -10,15 +11,21 @@ const ViewMarkersList = dynamic(
   }
 );
 
-const admin: NextPage = () => {
+const Marker = dynamic(() => import("@/componentsmarker/Marker"), {
+  ssr: false,
+});
+
+const Admin: NextPage = () => {
+  const { view } = useMarkerStore();
   return (
     <div className="flex h-screen w-full flex-col  bg-gray-50">
       <AdminNavBar />
       <div className="relative flex flex-1 overflow-hidden">
-        <ViewMarkersList />
+        {view === "list" ? <ViewMarkersList /> : null}
+        {view === "marker" ? <Marker /> : null}
       </div>
     </div>
   );
 };
 
-export default admin;
+export default Admin;

@@ -47,8 +47,8 @@ model Marker {
   lng             Float
   lat             Float
   markerType      MarkerType @default(Pantheon)
-  apartmentRow    Int?
-  apartmentColumn Int?
+  apartmentRow    String?
+  apartmentColumn String?
   familyNumber    String?
   familyAddress   String?
   createdAt       DateTime   @default(now())

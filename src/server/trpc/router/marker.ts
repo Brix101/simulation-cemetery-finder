@@ -39,6 +39,8 @@ export const markerRouter = router({
           lng,
           markerType,
           middleName,
+          familyAddress,
+          familyNumber,
         } = input;
 
         const newMarker = await ctx.prisma.marker.create({
@@ -53,6 +55,8 @@ export const markerRouter = router({
             markerType: markerType,
             apartmentColumn: apartmentColumn,
             apartmentRow: apartmentRow,
+            familyAddress: familyAddress,
+            familyNumber: familyNumber,
           },
         });
 

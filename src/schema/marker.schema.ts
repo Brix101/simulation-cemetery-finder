@@ -2,16 +2,18 @@ import { MarkerType } from "@prisma/client";
 import z from "zod";
 
 export const addMarkerSchema = z.object({
-  firstName: z.string().nullable(),
+  firstName: z.string(),
   middleName: z.string().nullable(),
-  lastName: z.string().nullable(),
+  lastName: z.string(),
   bornDate: z.date(),
   diedDate: z.date(),
   lng: z.number(),
   lat: z.number(),
   markerType: z.nativeEnum(MarkerType),
-  apartmentRow: z.number().nullable(),
-  apartmentColumn: z.number().nullable(),
+  apartmentRow: z.string().nullable(),
+  apartmentColumn: z.string().nullable(),
+  familyNumber: z.string().nullable(),
+  familyAddress: z.string().nullable(),
 });
 
 export const updateMarkerSchema = z.object({
@@ -24,8 +26,10 @@ export const updateMarkerSchema = z.object({
   lng: z.number(),
   lat: z.number(),
   markerType: z.nativeEnum(MarkerType),
-  apartmentRow: z.number().nullable(),
-  apartmentColumn: z.number().nullable(),
+  apartmentRow: z.string().nullable(),
+  apartmentColumn: z.string().nullable(),
+  familyNumber: z.string().nullable(),
+  familyAddress: z.string().nullable(),
 });
 
 export const deleteMarkerSchema = z.object({
