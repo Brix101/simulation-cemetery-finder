@@ -5,16 +5,20 @@ import mapboxgl from "mapbox-gl";
 import React, { useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { Trash2 } from "react-feather";
 import { Controller, useForm } from "react-hook-form";
 import Select from "react-select";
 import { PrimaryButton, SecondaryButton } from "../buttons";
+import DistructiveButton from "../buttons/DestructiveButton";
 import { PrimaryInput } from "../inputs";
 import useMapStore from "../map/mapStore";
 import useMarkerStore from "../marker/markerStore";
+import MarkerDeleteDialog from "./MarkerDeleteDialog";
 
 function MarkerUpdateForm() {
   const { tempMarker, setTempMarker } = useMapStore();
-  const { setView, markerView, setMarkerView } = useMarkerStore();
+  const { setView, markerView, setMarkerView, setMarkerToDelete } =
+    useMarkerStore();
   const {
     register,
     control,
@@ -235,16 +239,31 @@ function MarkerUpdateForm() {
           </div>
         </div>
 
-        <div className="flex items-end justify-end gap-2">
-          <div className="w-20">
-            <SecondaryButton type="button" isSmall onClick={handleCancelClick}>
-              Cancel
-            </SecondaryButton>
+        <div className="flex items-end justify-between">
+          <div>
+            <DistructiveButton
+              type="button"
+              isSmall
+              onClick={() => setMarkerToDelete(markerView)}
+            >
+              <Trash2 />
+            </DistructiveButton>
           </div>
-          <div className="w-44">
-            <PrimaryButton isSmall disabled={!isValid} isLoading={isLoading}>
-              Update
-            </PrimaryButton>
+          <div className="flex items-end justify-end gap-2">
+            <div className="w-20">
+              <SecondaryButton
+                type="button"
+                isSmall
+                onClick={handleCancelClick}
+              >
+                Cancel
+              </SecondaryButton>
+            </div>
+            <div className="w-44">
+              <PrimaryButton isSmall disabled={!isValid} isLoading={isLoading}>
+                Update
+              </PrimaryButton>
+            </div>
           </div>
         </div>
       </form>

@@ -30,12 +30,12 @@ function LoginForm() {
     return <></>;
   }
   return (
-    <div className="absolute top-0 left-0 z-30 flex h-full w-full select-none items-center justify-center bg-black/[.20]">
+    <div className="absolute top-0 left-0 z-30 flex h-full w-full select-none items-center justify-center bg-black/[.20] shadow-lg drop-shadow-lg">
       <div
         ref={ref}
         className="mx-5 flex gap-2 transition delay-150 ease-in-out"
       >
-        <div className="relative flex h-fit w-full flex-col justify-between gap-10 overflow-hidden rounded-lg bg-white p-5 shadow-lg drop-shadow-lg md:w-96">
+        <div className="relative flex h-fit w-full flex-col justify-between gap-10 overflow-hidden rounded-lg bg-white p-5 md:w-96">
           <div className="absolute right-1 top-1 h-10 w-10">
             <SecondaryButton isSmall onClick={handleCloseButton}>
               <X className="text-dark-blue" />

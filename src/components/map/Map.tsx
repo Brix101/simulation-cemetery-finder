@@ -134,15 +134,15 @@ const Map = () => {
 
   if (map) {
     map.on("click", (e) => {
-      tempMarker?.remove();
-      const newTempMarker = new mapboxgl.Marker({
-        draggable: true,
-      }).setLngLat([e.lngLat.lng, e.lngLat.lat]);
       if (
         router.pathname.includes("admin") &&
         view === "marker" &&
         !markerView
       ) {
+        tempMarker?.remove();
+        const newTempMarker = new mapboxgl.Marker({
+          draggable: true,
+        }).setLngLat([e.lngLat.lng, e.lngLat.lat]);
         setTempMarker(newTempMarker);
       }
     });

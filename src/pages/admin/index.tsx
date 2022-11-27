@@ -1,3 +1,4 @@
+import MarkerDeleteDialog from "@/components/forms/MarkerDeleteDialog";
 import useMarkerStore from "@/components/marker/markerStore";
 import AdminNavBar from "@/components/navigation/AdminNavBar";
 import { NextPage } from "next";
@@ -16,7 +17,8 @@ const Marker = dynamic(() => import("@/componentsmarker/Marker"), {
 });
 
 const Admin: NextPage = () => {
-  const { view } = useMarkerStore();
+  const { view, markerView } = useMarkerStore();
+
   return (
     <div className="flex h-screen w-full flex-col  bg-gray-50">
       <AdminNavBar />
@@ -24,6 +26,8 @@ const Admin: NextPage = () => {
         {view === "list" ? <ViewMarkersList /> : null}
         {view === "marker" ? <Marker /> : null}
       </div>
+
+      <MarkerDeleteDialog />
     </div>
   );
 };
