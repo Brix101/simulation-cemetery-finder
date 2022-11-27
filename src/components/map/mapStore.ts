@@ -1,3 +1,4 @@
+import { trpc } from "@/utils/trpc";
 import { Marker } from "@prisma/client";
 import mapboxgl from "mapbox-gl";
 import create from "zustand";

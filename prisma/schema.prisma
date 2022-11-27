@@ -44,8 +44,8 @@ model Marker {
   middleName      String?
   bornDate        DateTime?
   diedDate        DateTime?
-  lng             Float?
-  lat             Float?
+  lng             Float
+  lat             Float
   markerType      MarkerType @default(Pantheon)
   apartmentRow    Int?
   apartmentColumn Int?
