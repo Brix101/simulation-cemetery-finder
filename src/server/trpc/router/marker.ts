@@ -86,6 +86,8 @@ export const markerRouter = router({
           lng,
           markerType,
           middleName,
+          familyAddress,
+          familyNumber,
         } = input;
 
         const updatedMarker = await ctx.prisma.marker.update({
@@ -103,6 +105,8 @@ export const markerRouter = router({
             markerType: markerType,
             apartmentColumn: apartmentColumn,
             apartmentRow: apartmentRow,
+            familyAddress: familyAddress,
+            familyNumber: familyNumber,
           },
         });
 

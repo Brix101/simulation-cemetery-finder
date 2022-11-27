@@ -18,9 +18,9 @@ export const addMarkerSchema = z.object({
 
 export const updateMarkerSchema = z.object({
   id: z.number(),
-  firstName: z.string().nullable(),
+  firstName: z.string(),
   middleName: z.string().nullable(),
-  lastName: z.string().nullable(),
+  lastName: z.string(),
   bornDate: z.date(),
   diedDate: z.date(),
   lng: z.number(),
