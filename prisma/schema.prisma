@@ -24,47 +24,42 @@ model Example {
   updatedAt DateTime @updatedAt
 }
 
-// Necessary for Next auth
-model Account {
-  id                Int     @id @default(autoincrement())
-  userId            Int
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String? @db.Text
-  session_state     String?
-  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([provider, providerAccountId])
-}
-
-model Session {
-  id           Int      @id @default(autoincrement())
-  sessionToken String   @unique
-  userId       Int
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
 model User {
-  id            Int       @id @default(autoincrement())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
+  id         Int      @id @default(autoincrement())
+  email      String?  @unique
+  password   String?
+  firstName  String?
+  middleName String?
+  lastName   String?
+  userType   UserType @default(User)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
-model VerificationToken {
-  identifier String
-  token      String   @unique
-  expires    DateTime
+model Marker {
+  id              Int        @id @default(autoincrement())
+  firstName       String?
+  lastName        String?
+  middleName      String?
+  bornDate        DateTime?
+  diedDate        DateTime?
+  lng             Float?
+  lat             Float?
+  markerType      MarkerType @default(Pantheon)
+  apartmentRow    Int?
+  apartmentColumn Int?
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+}
 
-  @@unique([identifier, token])
+enum MarkerType {
+  Apartment
+  Ground_Burial
+  Pantheon
+}
+
+enum UserType {
+  Admin
+  User
 }

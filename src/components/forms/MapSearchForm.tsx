@@ -1,8 +1,10 @@
 import { PrimaryButton, SecondaryButton } from "@/componentsbuttons";
-import useMapStore, { Person } from "@/componentsmap/mapStore";
-import { signIn } from "next-auth/react";
-import React from "react";
-import { Home, Search } from "react-feather";
+import useMapStore from "@/componentsmap/mapStore";
+import { trpc } from "@/utils/trpc";
+import { Marker } from "@prisma/client";
+import Image from "next/image";
+import React, { useEffect } from "react";
+import { Search } from "react-feather";
 import Select from "react-select";
 import useUserStore from "./userStore";
 
@@ -14,13 +16,33 @@ function MapSearchForm() {
     selectedMarker,
     map,
     center,
+    setOptions,
   } = useMapStore();
 
   const { setIsLogin } = useUserStore();
 
+  const { data } = trpc.marker.getAll.useQuery();
+
+  useEffect(() => {
+    if (data) {
+      setOptions(
+        data.map((markerData) => {
+          return {
+            value: markerData,
+            label:
+              markerData.lastName +
+              ", " +
+              markerData.firstName +
+              " " +
+              markerData.middleName,
+          };
+        })
+      );
+    }
+  }, [data]);
+
   const handleSignInClick = () => {
-    // setIsLogin(true);
-    signIn();
+    setIsLogin(true);
   };
 
   return (
@@ -34,7 +56,7 @@ function MapSearchForm() {
           onChange={(e) => {
             if (e?.value !== selectedPerson) {
               selectedMarker?.remove();
-              setSelectedPerson(e?.value as Person);
+              setSelectedPerson(e?.value as Marker);
             }
           }}
         />
@@ -44,10 +66,10 @@ function MapSearchForm() {
       </div>
       <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white drop-shadow-lg">
         <SecondaryButton isSmall onClick={() => map?.flyTo(center)}>
-          <Home />
+          <Image src={"/tombstone.png"} height={24} width={24} alt="pointer" />
         </SecondaryButton>
       </div>
-      <div className="w-28">
+      <div className="w-16">
         <PrimaryButton isSmall onClick={handleSignInClick}>
           Login
         </PrimaryButton>
