@@ -20,7 +20,7 @@ interface MapState {
   setMap: (ma: mapboxgl.Map | null) => void;
   center: Center;
   selectedPerson: Marker | undefined;
-  setSelectedPerson: (personMarker: Marker) => void;
+  setSelectedPerson: (personMarker: Marker | undefined) => void;
   selectedMarker: mapboxgl.Marker | undefined;
   setSelectedMarker: (marker: mapboxgl.Marker) => void;
   tempMarker: mapboxgl.Marker | undefined;

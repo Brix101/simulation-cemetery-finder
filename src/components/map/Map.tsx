@@ -78,9 +78,11 @@ const Map = () => {
       const { lat, lng } = selectedPerson;
       const marker = new mapboxgl.Marker().setLngLat([lng, lat]).addTo(map);
       setSelectedMarker(marker);
-      // new mapboxgl.Popup({ closeOnClick: false })
+      // new mapboxgl.Popup({
+      //   closeOnClick: false,
+      // })
       //   .setLngLat([lng, lat])
-      //   .setHTML("<h1>Hello World!</h1>")
+      //   .setHTML("<h1>" + firstName + "</h1>")
       //   .addTo(map);
     }
   }, [map, selectedPerson, setSelectedMarker]);
@@ -94,19 +96,21 @@ const Map = () => {
   }, [selectedMarker, map, center]);
 
   useEffect(() => {
-    if (map && tempMarker === undefined) {
-      // map.on("click", (e) => {
-      //   const newTempMarker = new mapboxgl.Marker({ draggable: true })
-      //     .setLngLat([e.lngLat.lng, e.lngLat.lat])
-      //     .addTo(map);
-      //   setTempMarker(newTempMarker);
-      // });
+    if (map && tempMarker) {
+      tempMarker.addTo(map);
+      tempMarker.on("dragend", () => {
+        setTempMarker(tempMarker);
+      });
     }
   }, [map, tempMarker, setTempMarker]);
 
-  if (tempMarker) {
-    tempMarker.on("dragend", () => {
-      setTempMarker(tempMarker);
+  if (map) {
+    map.on("click", (e) => {
+      tempMarker?.remove();
+      const newTempMarker = new mapboxgl.Marker({
+        draggable: true,
+      }).setLngLat([e.lngLat.lng, e.lngLat.lat]);
+      // setTempMarker(newTempMarker);
     });
   }
 

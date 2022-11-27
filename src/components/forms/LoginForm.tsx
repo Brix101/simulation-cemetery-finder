@@ -1,6 +1,7 @@
-import { PrimaryButton } from "@/componentsbuttons";
+import { PrimaryButton, SecondaryButton } from "@/componentsbuttons";
 import { PasswordInput, PrimaryInput } from "@/componentsinputs";
 import React, { useRef, useState } from "react";
+import { X } from "react-feather";
 import { useOnClickOutside } from "usehooks-ts";
 import useUserStore from "./userStore";
 
@@ -32,7 +33,12 @@ function LoginForm() {
         ref={ref}
         className="mx-5 flex gap-2 transition delay-150 ease-in-out"
       >
-        <div className="flex h-fit w-full flex-col justify-between gap-10 overflow-hidden rounded-lg bg-white p-5 shadow-lg drop-shadow-lg md:w-96">
+        <div className="relative flex h-fit w-full flex-col justify-between gap-10 overflow-hidden rounded-lg bg-white p-5 shadow-lg drop-shadow-lg md:w-96">
+          <div className="absolute right-1 top-1 h-10 w-10">
+            <SecondaryButton isSmall onClick={handleCloseButton}>
+              <X className="text-dark-blue" />
+            </SecondaryButton>
+          </div>
           <div className="flex flex-col justify-center gap-5 text-center  text-dark-blue">
             <span className="font-sans text-2xl font-bold">
               Login to <br />

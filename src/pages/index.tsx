@@ -10,6 +10,9 @@ const MapSearchForm = dynamic(() => import("@/componentsforms/MapSearchForm"), {
 const LoginForm = dynamic(() => import("@/componentsforms/LoginForm"), {
   ssr: false,
 });
+const SelectedMarker = dynamic(() => import("@/componentsmap/SelectedMarker"), {
+  ssr: false,
+});
 
 const Home: NextPage = () => {
   return (
@@ -17,6 +20,7 @@ const Home: NextPage = () => {
       <MapSearchForm />
       <Map />
       <LoginForm />
+      <SelectedMarker />
     </main>
   );
 };

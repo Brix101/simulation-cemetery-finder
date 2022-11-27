@@ -47,8 +47,9 @@ function MapSearchForm() {
 
   return (
     <div className="absolute top-2 left-2 z-10 flex h-auto w-full items-center gap-2 pr-4">
-      <div className="relative h-10 w-full drop-shadow-lg md:w-96">
+      <div className="relative h-10 flex-1 drop-shadow-lg md:w-96 md:flex-none lg:w-96">
         <Select
+          className="capitalize"
           options={options}
           placeholder="Search a name..."
           isSearchable
