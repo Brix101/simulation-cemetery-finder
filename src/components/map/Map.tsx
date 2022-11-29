@@ -5,7 +5,10 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import useMarkerStore from "../marker/markerStore";
-import useMapStore, { GeolocateCoordinates } from "./mapStore";
+import useMapStore, {
+  GeolocateCoordinates,
+  GeolocateCoordinatesOff,
+} from "./mapStore";
 
 mapboxgl.accessToken = env.NEXT_PUBLIC_MAPBOX_TOKEN;
 
@@ -109,9 +112,12 @@ const Map = () => {
             });
         });
 
-        geolocate.on("trackuserlocationend", () => {
+        geolocate.on("trackuserlocationend", (e) => {
           const route = newMap?.getSource("route") as mapboxgl.GeoJSONSource;
-          if (route) {
+          const { target } = e as GeolocateCoordinatesOff;
+          const isOff = target._watchState === "OFF";
+
+          if (isOff) {
             route.setData({
               type: "Feature",
               properties: {},

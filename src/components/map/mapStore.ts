@@ -22,6 +22,13 @@ interface Coords {
 export interface GeolocateCoordinates {
   coords: Coords;
 }
+interface Target {
+  _watchState: string;
+}
+
+export interface GeolocateCoordinatesOff {
+  target: Target;
+}
 
 interface MapState {
   map: mapboxgl.Map | null;
