@@ -3,7 +3,7 @@ import { trpc } from "@/utils/trpc";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { useRouter } from "next/router";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import useMarkerStore from "../marker/markerStore";
 import useMapStore, { GeolocateCoordinates } from "./mapStore";
 
@@ -13,7 +13,7 @@ const Map = () => {
   const router = useRouter();
 
   const { data } = trpc.marker.getAll.useQuery({ searchInput: "" });
-
+  const [coordsData, setCoordsData] = useState<[]>([]);
   const ref = useRef<HTMLDivElement | null>(null);
   const {
     map,
@@ -41,6 +41,30 @@ const Map = () => {
       setMap(newMap);
 
       newMap.on("load", () => {
+        newMap.addLayer({
+          id: "route",
+          type: "line",
+          source: {
+            type: "geojson",
+            data: {
+              type: "Feature",
+              properties: {},
+              geometry: {
+                type: "LineString",
+                coordinates: [],
+              },
+            },
+          },
+          layout: {
+            "line-join": "round",
+            "line-cap": "round",
+          },
+          paint: {
+            "line-color": "red",
+            "line-width": 4,
+          },
+        });
+
         newMap.addSource("mapbox-dem", {
           type: "raster-dem",
           url: "mapbox://mapbox.mapbox-terrain-dem-v1",
@@ -76,18 +100,19 @@ const Map = () => {
 
         geolocate.on("geolocate", (e) => {
           const { coords } = e as GeolocateCoordinates;
-          const routeId = newMap?.getSource("route");
-          if (routeId) {
-            newMap.removeLayer("route");
-            newMap.removeSource("route");
-          }
           setCurrentCoords(coords);
         });
         geolocate.on("trackuserlocationend", () => {
-          const routeId = newMap?.getSource("route");
-          if (routeId) {
-            newMap.removeLayer("route");
-            newMap.removeSource("route");
+          const route = newMap?.getSource("route") as mapboxgl.GeoJSONSource;
+          if (route) {
+            route.setData({
+              type: "Feature",
+              properties: {},
+              geometry: {
+                type: "LineString",
+                coordinates: [],
+              },
+            });
           }
           setCurrentCoords(undefined);
         });
@@ -120,38 +145,34 @@ const Map = () => {
   }, [data, setOptions]);
 
   useEffect(() => {
-    const routeId = map?.getSource("route");
-    if (currentCoords && map && !routeId) {
-      map.addSource("route", {
-        type: "geojson",
-        data: {
-          type: "Feature",
-          properties: {},
-          geometry: {
-            type: "LineString",
-            coordinates: [
-              [currentCoords.longitude, currentCoords.latitude],
-              [125.01129701742406, 7.747423241099526],
-            ],
-          },
-        },
-      });
-      map.addLayer({
-        id: "route",
-        type: "line",
-        source: "route",
-        layout: {
-          "line-join": "round",
-          "line-cap": "round",
-        },
-        paint: {
-          "line-color": "red",
-          "line-width": 4,
+    const route = map?.getSource("route") as mapboxgl.GeoJSONSource;
+    console.log({ route });
+    if (route) {
+      route.setData({
+        type: "Feature",
+        properties: {},
+        geometry: {
+          type: "LineString",
+          coordinates: coordsData,
         },
       });
     }
-  }, [currentCoords, map]);
-  console.log(currentCoords);
+  }, [coordsData, map]);
+  console.log(coordsData.length);
+
+  useEffect(() => {
+    if (currentCoords) {
+      fetch(
+        `https://api.mapbox.com/directions/v5/mapbox/driving/124.2615659%2C8.2426455%3B125.01129701742406%2C7.747423241099526?alternatives=false&continue_straight=false&geometries=geojson&overview=simplified&steps=false&access_token=pk.eyJ1IjoiYnJpeDEwMSIsImEiOiJjbDlvOHRnMGUwZmlrM3VsN21hcTU3M2IyIn0.OR9unKhFFMKUmDz7Vsz4TQ`,
+        { method: "GET" }
+      )
+        .then((res) => res.json())
+        .then((json) => {
+          const data = json.routes[0];
+          setCoordsData(data.geometry.coordinates);
+        });
+    }
+  }, [currentCoords]);
 
   useEffect(() => {
     if (selectedPerson && map) {
