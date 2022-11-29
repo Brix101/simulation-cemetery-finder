@@ -76,12 +76,20 @@ const Map = () => {
 
         geolocate.on("geolocate", (e) => {
           const { coords } = e as GeolocateCoordinates;
+          const routeId = newMap?.getSource("route");
+          if (routeId) {
+            newMap.removeLayer("route");
+            newMap.removeSource("route");
+          }
           setCurrentCoords(coords);
         });
         geolocate.on("trackuserlocationend", () => {
+          const routeId = newMap?.getSource("route");
+          if (routeId) {
+            newMap.removeLayer("route");
+            newMap.removeSource("route");
+          }
           setCurrentCoords(undefined);
-          newMap.removeLayer("route");
-          newMap.removeSource("route");
         });
       });
       // map.addControl(
@@ -113,7 +121,6 @@ const Map = () => {
 
   useEffect(() => {
     const routeId = map?.getSource("route");
-    console.log({ routeId });
     if (currentCoords && map && !routeId) {
       map.addSource("route", {
         type: "geojson",
@@ -144,6 +151,7 @@ const Map = () => {
       });
     }
   }, [currentCoords, map]);
+  console.log(currentCoords);
 
   useEffect(() => {
     if (selectedPerson && map) {
