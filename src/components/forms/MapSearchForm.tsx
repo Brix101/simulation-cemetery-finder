@@ -1,6 +1,5 @@
 import { PrimaryButton, SecondaryButton } from "@/componentsbuttons";
 import useMapStore from "@/componentsmap/mapStore";
-import { trpc } from "@/utils/trpc";
 import { Marker } from "@prisma/client";
 import Image from "next/image";
 import React from "react";
@@ -28,7 +27,8 @@ function MapSearchForm() {
     <div className="absolute top-2 left-2 z-10 flex h-auto w-full items-center gap-2 pr-4">
       <div className="relative h-10 flex-1 drop-shadow-lg md:w-96 md:flex-none lg:w-96">
         <Select
-          classNamePrefix={"capitalize"}
+          classNamePrefix={"react-select__menu"}
+          className="capitalize"
           options={options}
           placeholder="Search a name..."
           isSearchable

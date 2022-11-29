@@ -5,7 +5,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import { useRouter } from "next/router";
 import { useEffect, useRef } from "react";
 import useMarkerStore from "../marker/markerStore";
-import useMapStore from "./mapStore";
+import useMapStore, { GeolocateCoordinates } from "./mapStore";
 
 mapboxgl.accessToken = env.NEXT_PUBLIC_MAPBOX_TOKEN;
 
@@ -25,6 +25,8 @@ const Map = () => {
     tempMarker,
     setTempMarker,
     setOptions,
+    currentCoords,
+    setCurrentCoords,
   } = useMapStore();
 
   const { view, markerView } = useMarkerStore();
@@ -63,16 +65,24 @@ const Map = () => {
 
         // Add zoom and rotation controls to the map.
         newMap.addControl(new mapboxgl.NavigationControl(), "bottom-right");
-        newMap.addControl(
-          new mapboxgl.GeolocateControl({
-            positionOptions: {
-              enableHighAccuracy: true,
-            },
-            trackUserLocation: true,
-            showUserHeading: true,
-          }),
-          "bottom-right"
-        );
+        const geolocate = new mapboxgl.GeolocateControl({
+          positionOptions: {
+            enableHighAccuracy: true,
+          },
+          trackUserLocation: true,
+          showUserHeading: true,
+        });
+        newMap.addControl(geolocate, "bottom-right");
+
+        geolocate.on("geolocate", (e) => {
+          const { coords } = e as GeolocateCoordinates;
+          setCurrentCoords(coords);
+        });
+        geolocate.on("trackuserlocationend", () => {
+          setCurrentCoords(undefined);
+          newMap.removeLayer("route");
+          newMap.removeSource("route");
+        });
       });
       // map.addControl(
       //   new MapboxDirections({
@@ -81,7 +91,7 @@ const Map = () => {
       //   'top-left'
       //   )
     }
-  }, [ref, center, setMap]);
+  }, [ref, center, setMap, setCurrentCoords]);
 
   useEffect(() => {
     if (data) {
@@ -100,6 +110,40 @@ const Map = () => {
       );
     }
   }, [data, setOptions]);
+
+  useEffect(() => {
+    const routeId = map?.getSource("route");
+    console.log({ routeId });
+    if (currentCoords && map && !routeId) {
+      map.addSource("route", {
+        type: "geojson",
+        data: {
+          type: "Feature",
+          properties: {},
+          geometry: {
+            type: "LineString",
+            coordinates: [
+              [currentCoords.longitude, currentCoords.latitude],
+              [125.01129701742406, 7.747423241099526],
+            ],
+          },
+        },
+      });
+      map.addLayer({
+        id: "route",
+        type: "line",
+        source: "route",
+        layout: {
+          "line-join": "round",
+          "line-cap": "round",
+        },
+        paint: {
+          "line-color": "red",
+          "line-width": 4,
+        },
+      });
+    }
+  }, [currentCoords, map]);
 
   useEffect(() => {
     if (selectedPerson && map) {

@@ -14,6 +14,15 @@ interface Center {
   bearing: number;
 }
 
+interface Coords {
+  latitude: number;
+  longitude: number;
+}
+
+export interface GeolocateCoordinates {
+  coords: Coords;
+}
+
 interface MapState {
   map: mapboxgl.Map | null;
   setMap: (ma: mapboxgl.Map | null) => void;
@@ -24,6 +33,8 @@ interface MapState {
   setSelectedMarker: (marker: mapboxgl.Marker) => void;
   tempMarker: mapboxgl.Marker | undefined;
   setTempMarker: (marker: mapboxgl.Marker | undefined) => void;
+  currentCoords: Coords | undefined;
+  setCurrentCoords: (coords: Coords | undefined) => void;
   options: Option[];
   setOptions: (options: Option[]) => void;
 }
@@ -45,6 +56,8 @@ const useMapStore = create<MapState>((set) => ({
   setTempMarker: (marker) => set({ tempMarker: marker }),
   options: [],
   setOptions: (options) => set({ options: options }),
+  currentCoords: undefined,
+  setCurrentCoords: (coords) => set({ currentCoords: coords }),
 }));
 
 export default useMapStore;
