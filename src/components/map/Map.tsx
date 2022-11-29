@@ -25,8 +25,6 @@ const Map = () => {
     tempMarker,
     setTempMarker,
     setOptions,
-    currentCoords,
-    setCurrentCoords,
   } = useMapStore();
 
   const { view, markerView } = useMarkerStore();
@@ -100,8 +98,17 @@ const Map = () => {
 
         geolocate.on("geolocate", (e) => {
           const { coords } = e as GeolocateCoordinates;
-          setCurrentCoords(coords);
+          fetch(
+            `https://api.mapbox.com/directions/v5/mapbox/driving/${coords.longitude},${coords.latitude};125.01037505404747,7.748057487589676?steps=true&geometries=geojson&access_token=${env.NEXT_PUBLIC_MAPBOX_TOKEN}`,
+            { method: "GET" }
+          )
+            .then((res) => res.json())
+            .then((json) => {
+              const data = json.routes[0];
+              setCoordsData(data.geometry.coordinates);
+            });
         });
+
         geolocate.on("trackuserlocationend", () => {
           const route = newMap?.getSource("route") as mapboxgl.GeoJSONSource;
           if (route) {
@@ -114,7 +121,6 @@ const Map = () => {
               },
             });
           }
-          setCurrentCoords(undefined);
         });
       });
       // map.addControl(
@@ -124,7 +130,7 @@ const Map = () => {
       //   'top-left'
       //   )
     }
-  }, [ref, center, setMap, setCurrentCoords]);
+  }, [ref, center, setMap]);
 
   useEffect(() => {
     if (data) {
@@ -146,7 +152,6 @@ const Map = () => {
 
   useEffect(() => {
     const route = map?.getSource("route") as mapboxgl.GeoJSONSource;
-    console.log({ route });
     if (route) {
       route.setData({
         type: "Feature",
@@ -158,21 +163,6 @@ const Map = () => {
       });
     }
   }, [coordsData, map]);
-  console.log(coordsData.length);
-
-  useEffect(() => {
-    if (currentCoords) {
-      fetch(
-        `https://api.mapbox.com/directions/v5/mapbox/driving/124.2615659%2C8.2426455%3B125.01129701742406%2C7.747423241099526?alternatives=false&continue_straight=false&geometries=geojson&overview=simplified&steps=false&access_token=pk.eyJ1IjoiYnJpeDEwMSIsImEiOiJjbDlvOHRnMGUwZmlrM3VsN21hcTU3M2IyIn0.OR9unKhFFMKUmDz7Vsz4TQ`,
-        { method: "GET" }
-      )
-        .then((res) => res.json())
-        .then((json) => {
-          const data = json.routes[0];
-          setCoordsData(data.geometry.coordinates);
-        });
-    }
-  }, [currentCoords]);
 
   useEffect(() => {
     if (selectedPerson && map) {

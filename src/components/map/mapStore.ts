@@ -33,8 +33,6 @@ interface MapState {
   setSelectedMarker: (marker: mapboxgl.Marker) => void;
   tempMarker: mapboxgl.Marker | undefined;
   setTempMarker: (marker: mapboxgl.Marker | undefined) => void;
-  currentCoords: Coords | undefined;
-  setCurrentCoords: (coords: Coords | undefined) => void;
   options: Option[];
   setOptions: (options: Option[]) => void;
 }
@@ -56,8 +54,6 @@ const useMapStore = create<MapState>((set) => ({
   setTempMarker: (marker) => set({ tempMarker: marker }),
   options: [],
   setOptions: (options) => set({ options: options }),
-  currentCoords: undefined,
-  setCurrentCoords: (coords) => set({ currentCoords: coords }),
 }));
 
 export default useMapStore;
