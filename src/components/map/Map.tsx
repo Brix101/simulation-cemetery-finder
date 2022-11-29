@@ -94,6 +94,7 @@ const Map = () => {
           positionOptions: {
             enableHighAccuracy: true,
           },
+          showAccuracyCircle: true,
           trackUserLocation: true,
           showUserHeading: true,
         });
