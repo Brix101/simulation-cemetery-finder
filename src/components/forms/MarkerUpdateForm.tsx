@@ -64,9 +64,9 @@ function MarkerUpdateForm() {
         diedDate: markerView.diedDate as Date,
         familyAddress: markerView.familyAddress,
         familyNumber: markerView.familyNumber,
-        firstName: markerView.firstName,
+        firstName: markerView.firstName as string,
         id: markerView.id,
-        lastName: markerView.lastName,
+        lastName: markerView.lastName as string,
         markerType: markerView.markerType,
         middleName: markerView.middleName,
       });
