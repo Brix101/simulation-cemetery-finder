@@ -18,20 +18,17 @@ datasource db {
   referentialIntegrity = "prisma"
 }
 
-model Example {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
 model User {
-  id         Int      @id @default(autoincrement())
-  email      String?  @unique
+  id         Int       @id @default(autoincrement())
+  email      String?   @unique
   password   String?
   firstName  String?
   middleName String?
   lastName   String?
-  userType   UserType @default(User)
+  contactNo  String?
+  address    String?
+  birthDate  DateTime?
+  userType   UserType  @default(User)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
