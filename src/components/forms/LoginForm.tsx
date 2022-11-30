@@ -10,6 +10,8 @@ import useUserStore from "./userStore";
 function LoginForm() {
   const router = useRouter();
   const ref = useRef(null);
+  const [email, setEmail] = useState<string | undefined>();
+  const [password, setPassword] = useState<string | undefined>();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | undefined>();
   const { isLogin, setIsLogin } = useUserStore();
@@ -23,18 +25,23 @@ function LoginForm() {
   useOnClickOutside(ref, handleCloseButton);
 
   const handleSubmit = async () => {
-    setError(undefined);
+    setLoading(true);
     const result = await signIn("credentials", {
       redirect: false,
-      email: "enteredEmail",
-      password: "enteredPassword",
+      email: email,
+      password: password,
     });
+
     if (result?.ok) {
-      handleCloseButton();
       router.push("/admin");
+      handleCloseButton();
+      setError(undefined);
     }
     if (!result?.ok) {
       setError(result?.error);
+    }
+    if (result) {
+      setLoading(false);
     }
     console.log(result);
   };
@@ -65,8 +72,17 @@ function LoginForm() {
             </p>
           </div>
           <div className="space-y-5">
-            <PrimaryInput placeholder="Email" />
-            <PasswordInput placeholder="Password" />
+            <PrimaryInput
+              name="email"
+              type={"email"}
+              placeholder="Email"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <PasswordInput
+              name="password"
+              placeholder="Password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
             <PrimaryButton
               type="button"
               isLoading={loading}

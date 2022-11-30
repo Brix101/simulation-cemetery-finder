@@ -219,7 +219,7 @@ function MarkerAddForm() {
           <div className="w-44">
             <PrimaryButton
               isSmall
-              disabled={!isValid || !isDirty || !tempMarker}
+              disabled={!isValid || !isDirty || !tempMarker || isLoading}
               isLoading={isLoading}
             >
               Add
