@@ -2,7 +2,6 @@ import MarkerDeleteDialog from "@/components/forms/MarkerDeleteDialog";
 import useMarkerStore from "@/components/marker/markerStore";
 import AdminNavBar from "@/components/navigation/AdminNavBar";
 import { NextPage } from "next";
-import { useSession } from "next-auth/react";
 import dynamic from "next/dynamic";
 import React from "react";
 
@@ -18,9 +17,7 @@ const Marker = dynamic(() => import("@/componentsmarker/Marker"), {
 });
 
 const Admin: NextPage = () => {
-  const session = useSession();
   const { view } = useMarkerStore();
-  console.log(session);
   return (
     <div className="flex h-screen w-full flex-col  bg-gray-50">
       <AdminNavBar />
