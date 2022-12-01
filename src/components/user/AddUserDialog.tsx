@@ -13,7 +13,7 @@ import useUserStore from "./userStore";
 
 function AddUserDialog() {
   const ref = useRef(null);
-  const { isAdding, setIsAdding } = useUserStore();
+  const { isAdding, setIsAdding, setUsers, users } = useUserStore();
   const {
     register,
     control,
@@ -23,7 +23,8 @@ function AddUserDialog() {
   } = useForm<CreateUserInput>({ mode: "onChange" });
 
   const { mutate, isLoading } = trpc.user.addUser.useMutation({
-    onSuccess: () => {
+    onSuccess: (user) => {
+      setUsers([...users, user]);
       handleCloseButton();
     },
   });
@@ -50,7 +51,7 @@ function AddUserDialog() {
   }
 
   return (
-    <div className="absolute top-0 left-0 z-30 flex h-full w-full select-none items-center justify-center bg-black/[.20] shadow-lg drop-shadow-lg">
+    <div className="absolute top-0 left-0 z-max flex h-full w-full select-none items-center justify-center bg-black/[.20] shadow-lg drop-shadow-lg">
       <div
         ref={ref}
         className="mx-5 flex gap-2 transition delay-150 ease-in-out"

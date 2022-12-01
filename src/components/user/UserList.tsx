@@ -1,7 +1,7 @@
 import { SearchUserInput } from "@/schema/user.schema";
 import { trpc } from "@/utils/trpc";
 import moment from "moment";
-import React, { ChangeEvent, Suspense, useState } from "react";
+import React, { ChangeEvent, Suspense, useEffect, useState } from "react";
 import { Plus } from "react-feather";
 import { useDebounce } from "usehooks-ts";
 import { PrimaryButton } from "../buttons";
@@ -10,14 +10,20 @@ import LinearLoading from "../LinearLoading";
 import useUserStore from "./userStore";
 
 function UserList() {
-  const { setIsAdding } = useUserStore();
+  const { setIsAdding, users, setUsers } = useUserStore();
   const [search, setSearch] = useState<SearchUserInput>({ name: "" });
   const debouncedValue = useDebounce<SearchUserInput>(search, 500);
 
   const { data, isLoading, isFetching } = trpc.user.getAll.useQuery(
     { ...debouncedValue },
-    { enabled: true }
+    { enabled: true, refetchOnWindowFocus: true }
   );
+
+  useEffect(() => {
+    if (data) {
+      setUsers(data);
+    }
+  }, [data, setUsers]);
 
   const TableStyle = (x: number) => {
     if (x % 2) {
@@ -83,7 +89,7 @@ function UserList() {
         </thead>
         <Suspense>
           <tbody>
-            {data?.map((user, i) => {
+            {users?.map((user, i) => {
               return (
                 <tr key={i} className={`${TableStyle(i)}`}>
                   <th

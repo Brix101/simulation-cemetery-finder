@@ -1,3 +1,4 @@
+import { User } from "@prisma/client";
 import create from "zustand";
 
 interface UserState {
@@ -5,6 +6,8 @@ interface UserState {
   setIsLogin: (isLogin: boolean | undefined) => void;
   isAdding: boolean;
   setIsAdding: (isAdding: boolean | undefined) => void;
+  users: User[];
+  setUsers: (users: User[] | undefined) => void;
 }
 
 const useUserStore = create<UserState>((set) => ({
@@ -17,6 +20,11 @@ const useUserStore = create<UserState>((set) => ({
   setIsAdding: (isAdding) =>
     set(() => ({
       isAdding: isAdding,
+    })),
+  users: [],
+  setUsers: (users) =>
+    set(() => ({
+      users: users,
     })),
 }));
 
