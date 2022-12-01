@@ -7,8 +7,10 @@ import { useDebounce } from "usehooks-ts";
 import { PrimaryButton } from "../buttons";
 import { PrimaryInput } from "../inputs";
 import LinearLoading from "../LinearLoading";
+import useUserStore from "./userStore";
 
 function UserList() {
+  const { setIsAdding } = useUserStore();
   const [search, setSearch] = useState<SearchUserInput>({ name: "" });
   const debouncedValue = useDebounce<SearchUserInput>(search, 500);
 
@@ -28,6 +30,10 @@ function UserList() {
     setSearch({ name: event.target.value });
   };
 
+  const handleAddButton = () => {
+    setIsAdding(true);
+  };
+
   return (
     <div className="relative flex h-full w-full flex-col items-center justify-start gap-5 overflow-y-scroll  bg-white py-5">
       <div className="flex h-fit w-full justify-center">
@@ -41,7 +47,7 @@ function UserList() {
             />
           </div>
           <div className="w-28">
-            <PrimaryButton isSmall>
+            <PrimaryButton isSmall onClick={handleAddButton}>
               <span className="flex items-center gap-2">
                 <Plus className="text-white" /> Add
               </span>

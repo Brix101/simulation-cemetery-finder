@@ -9,19 +9,22 @@ import { Controller, useForm } from "react-hook-form";
 import Select from "react-select";
 import { PrimaryButton, SecondaryButton } from "../buttons";
 import { PasswordInput, PrimaryInput } from "../inputs";
+import useUserStore from "./userStore";
 
 function AddUserDialog() {
   const ref = useRef(null);
+  const { isAdding, setIsAdding } = useUserStore();
   const {
     register,
     control,
     handleSubmit,
+    reset,
     formState: { isValid, isDirty },
   } = useForm<CreateUserInput>({ mode: "onChange" });
 
   const { mutate, isLoading } = trpc.user.addUser.useMutation({
     onSuccess: () => {
-      console.log("success");
+      handleCloseButton();
     },
   });
 
@@ -34,11 +37,16 @@ function AddUserDialog() {
     }
   );
   const handleCloseButton = () => {
-    console.log("close");
+    reset();
+    setIsAdding(false);
   };
 
   function onSubmit(values: CreateUserInput) {
     mutate({ ...values });
+  }
+
+  if (!isAdding) {
+    return <></>;
   }
 
   return (
@@ -118,9 +126,6 @@ function AddUserDialog() {
                         selected={field.value}
                         dateFormat="MMMM-dd-yyyy"
                         required
-                        onKeyDown={(e) => {
-                          e.preventDefault();
-                        }}
                       />
                     )}
                   />
@@ -183,7 +188,11 @@ function AddUserDialog() {
               </div>
               <div className="flex items-end justify-end gap-2">
                 <div className="w-20">
-                  <SecondaryButton type="button" isSmall>
+                  <SecondaryButton
+                    type="button"
+                    isSmall
+                    onClick={handleCloseButton}
+                  >
                     Cancel
                   </SecondaryButton>
                 </div>

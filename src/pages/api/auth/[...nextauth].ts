@@ -14,7 +14,10 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
     async session({ session, token }) {
-      session = { expires: session.expires, ...token };
+      session = {
+        expires: session.expires,
+        user: { ...token, id: token.id as string },
+      };
       return session;
     },
   },

@@ -5,7 +5,7 @@ import Image from "next/image";
 import React from "react";
 import { Search } from "react-feather";
 import Select from "react-select";
-import useUserStore from "./userStore";
+import useUserStore from "../user/userStore";
 
 function MapSearchForm() {
   const {

@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import React, { useRef, useState } from "react";
 import { X } from "react-feather";
 import { useOnClickOutside } from "usehooks-ts";
-import useUserStore from "./userStore";
+import useUserStore from "../user/userStore";
 
 function LoginForm() {
   const router = useRouter();
@@ -30,6 +30,7 @@ function LoginForm() {
       redirect: false,
       email: email,
       password: password,
+      callbackUrl: "/admin",
     });
 
     if (result?.ok) {
@@ -43,7 +44,6 @@ function LoginForm() {
     if (result) {
       setLoading(false);
     }
-    console.log(result);
   };
 
   if (!isLogin) {

@@ -3,6 +3,8 @@ import create from "zustand";
 interface UserState {
   isLogin: boolean;
   setIsLogin: (isLogin: boolean | undefined) => void;
+  isAdding: boolean;
+  setIsAdding: (isAdding: boolean | undefined) => void;
 }
 
 const useUserStore = create<UserState>((set) => ({
@@ -10,6 +12,11 @@ const useUserStore = create<UserState>((set) => ({
   setIsLogin: (isLogin) =>
     set(() => ({
       isLogin: isLogin,
+    })),
+  isAdding: false,
+  setIsAdding: (isAdding) =>
+    set(() => ({
+      isAdding: isAdding,
     })),
 }));
 

@@ -130,9 +130,6 @@ function MarkerAddForm() {
                     selected={field.value}
                     dateFormat="MMMM-dd-yyyy"
                     required
-                    onKeyDown={(e) => {
-                      e.preventDefault();
-                    }}
                   />
                 )}
               />
@@ -153,9 +150,6 @@ function MarkerAddForm() {
                     selected={field.value}
                     dateFormat="MMMM-dd-yyyy"
                     required
-                    onKeyDown={(e) => {
-                      e.preventDefault();
-                    }}
                   />
                 )}
               />
