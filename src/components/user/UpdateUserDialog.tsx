@@ -1,14 +1,15 @@
-import { CreateUserInput, UpdateUserInput } from "@/schema/user.schema";
+import { UpdateUserInput } from "@/schema/user.schema";
 import { trpc } from "@/utils/trpc";
 import { UserType } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useRef } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { X } from "react-feather";
+import { Trash2, X } from "react-feather";
 import { Controller, useForm } from "react-hook-form";
 import Select from "react-select";
 import { PrimaryButton, SecondaryButton } from "../buttons";
+import DistructiveButton from "../buttons/DestructiveButton";
 import { PasswordInput, PrimaryInput } from "../inputs";
 import useUserStore from "./userStore";
 
@@ -35,6 +36,13 @@ function UpdateUserDialog() {
           }
         })
       );
+      handleCloseButton();
+    },
+  });
+
+  const { mutate: deleteMutation } = trpc.user.deleteUser.useMutation({
+    onMutate: () => {
+      setUsers(users.filter((user) => user.id !== isUserUpdate?.id));
       handleCloseButton();
     },
   });
@@ -229,24 +237,37 @@ function UpdateUserDialog() {
                 ) : null}
               </div>
               {isAdmin ? (
-                <div className="flex items-end justify-end gap-2">
-                  <div className="w-20">
-                    <SecondaryButton
-                      type="button"
-                      isSmall
-                      onClick={handleCloseButton}
-                    >
-                      Cancel
-                    </SecondaryButton>
+                <div className="flex items-end justify-between">
+                  <div>
+                    {sessionData?.user?.role === "Admin" ? (
+                      <DistructiveButton
+                        type="button"
+                        isSmall
+                        onClick={() => deleteMutation({ id: isUserUpdate.id })}
+                      >
+                        <Trash2 />
+                      </DistructiveButton>
+                    ) : null}
                   </div>
-                  <div className="w-44">
-                    <PrimaryButton
-                      isSmall
-                      disabled={!isDirty || isLoading}
-                      isLoading={isLoading}
-                    >
-                      Update
-                    </PrimaryButton>
+                  <div className="flex items-end justify-end gap-2">
+                    <div className="w-20">
+                      <SecondaryButton
+                        type="button"
+                        isSmall
+                        onClick={handleCloseButton}
+                      >
+                        Cancel
+                      </SecondaryButton>
+                    </div>
+                    <div className="w-44">
+                      <PrimaryButton
+                        isSmall
+                        disabled={!isDirty || isLoading}
+                        isLoading={isLoading}
+                      >
+                        Update
+                      </PrimaryButton>
+                    </div>
                   </div>
                 </div>
               ) : null}
