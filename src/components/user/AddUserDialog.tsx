@@ -22,7 +22,7 @@ function AddUserDialog() {
     formState: { isValid, isDirty },
   } = useForm<CreateUserInput>({ mode: "onChange" });
 
-  const { mutate, isLoading } = trpc.user.addUser.useMutation({
+  const { mutate, isLoading, error } = trpc.user.addUser.useMutation({
     onSuccess: (user) => {
       setUsers([...users, user]);
       handleCloseButton();
@@ -49,7 +49,7 @@ function AddUserDialog() {
   if (!isAdding) {
     return <></>;
   }
-
+  console.log(error);
   return (
     <div className="absolute top-0 left-0 z-max flex h-full w-full select-none items-center justify-center bg-black/[.20] shadow-lg drop-shadow-lg">
       <div
@@ -67,6 +67,15 @@ function AddUserDialog() {
             className="flex h-full w-full flex-col justify-between pb-10"
           >
             <h1 className="text-2xl font-bold text-dark-blue">Add new user</h1>
+            {error && (
+              <div
+                className="mb-4 rounded-lg bg-red-100 p-4 text-sm text-red-700 dark:bg-red-200 dark:text-red-800"
+                role="alert"
+              >
+                <span className="font-medium">Error alert!</span>
+                {error.message}
+              </div>
+            )}
             <div className="space-y-2 pt-10">
               <div className="flex gap-2">
                 <div>
