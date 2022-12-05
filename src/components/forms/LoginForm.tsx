@@ -24,7 +24,8 @@ function LoginForm() {
 
   useOnClickOutside(ref, handleCloseButton);
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     setLoading(true);
     const result = await signIn("credentials", {
       redirect: false,
@@ -71,23 +72,21 @@ function LoginForm() {
               here.
             </p>
           </div>
-          <div className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-5">
             <PrimaryInput
               name="email"
               type={"email"}
               placeholder="Email"
               onChange={(e) => setEmail(e.target.value)}
+              required
             />
             <PasswordInput
               name="password"
               placeholder="Password"
               onChange={(e) => setPassword(e.target.value)}
+              required
             />
-            <PrimaryButton
-              type="button"
-              isLoading={loading}
-              onClick={handleSubmit}
-            >
+            <PrimaryButton type="submit" isLoading={loading}>
               Login
             </PrimaryButton>
             {error ? (
@@ -107,7 +106,7 @@ function LoginForm() {
                 </div>
               </div>
             ) : null}
-          </div>
+          </form>
         </div>
       </div>
     </div>

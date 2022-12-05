@@ -1,13 +1,17 @@
 import { PrimaryButton, SecondaryButton } from "@/componentsbuttons";
 import useMapStore from "@/componentsmap/mapStore";
 import { Marker } from "@prisma/client";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import React from "react";
 import { Search } from "react-feather";
 import Select from "react-select";
 import useUserStore from "../user/userStore";
 
 function MapSearchForm() {
+  const router = useRouter();
+  const { status } = useSession();
   const {
     options,
     setSelectedPerson,
@@ -20,7 +24,11 @@ function MapSearchForm() {
   const { setIsLogin } = useUserStore();
 
   const handleSignInClick = () => {
-    setIsLogin(true);
+    if (status === "authenticated") {
+      router.push("/admin");
+    } else {
+      setIsLogin(true);
+    }
   };
 
   return (

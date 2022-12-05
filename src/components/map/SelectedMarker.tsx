@@ -49,6 +49,32 @@ ${selectedPerson ? "translate-x-0" : "-translate-x-full"}`}
                 {moment(selectedPerson?.diedDate).format("MMMM DD, YYYY")}
               </span>
             </div>
+            <div className="flex w-full items-center justify-start gap-2">
+              <label className="font-sans text-sm text-gray-700">type: </label>
+              <span className="font-sans text-sm capitalize text-dark-blue">
+                {selectedPerson?.markerType} type
+              </span>
+            </div>
+            {selectedPerson?.markerType === "Apartment" ? (
+              <>
+                <div className="flex w-full items-center justify-start gap-2">
+                  <label className="font-sans text-sm text-gray-700">
+                    row:{" "}
+                  </label>
+                  <span className="font-sans text-sm capitalize text-dark-blue">
+                    {selectedPerson?.apartmentRow}
+                  </span>
+                </div>
+                <div className="flex w-full items-center justify-start gap-2">
+                  <label className="font-sans text-sm text-gray-700">
+                    column:{" "}
+                  </label>
+                  <span className="font-sans text-sm capitalize text-dark-blue">
+                    {selectedPerson?.apartmentColumn}
+                  </span>
+                </div>
+              </>
+            ) : null}
           </div>
         </div>
       </div>

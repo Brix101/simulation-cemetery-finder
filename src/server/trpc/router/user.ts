@@ -7,7 +7,7 @@ import {
 import { hashPassword } from "@/utils/passwordUtils";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import * as trpc from "@trpc/server";
-import { publicProcedure, router } from "../trpc";
+import { protectedProcedure, publicProcedure, router } from "../trpc";
 
 export const userRouter = router({
   getAll: publicProcedure
@@ -26,6 +26,14 @@ export const userRouter = router({
         },
       });
     }),
+  me: protectedProcedure.query(async ({ ctx }) => {
+    const userId = ctx.session.user.id;
+    return await ctx.prisma.user.findFirst({
+      where: {
+        id: parseInt(userId),
+      },
+    });
+  }),
   addUser: publicProcedure
     .input(createUserSchema)
     .mutation(async ({ ctx, input }) => {
@@ -87,6 +95,7 @@ export const userRouter = router({
           middleName,
           userType,
           address,
+          password,
         } = input;
 
         const updatedUser = await ctx.prisma.user.update({
@@ -102,6 +111,7 @@ export const userRouter = router({
             lastName,
             middleName,
             userType,
+            password: password ? await hashPassword({ password }) : "",
           },
         });
 

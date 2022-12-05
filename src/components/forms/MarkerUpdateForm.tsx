@@ -159,9 +159,6 @@ function MarkerUpdateForm() {
                     selected={field.value}
                     dateFormat="MMMM-dd-yyyy"
                     required
-                    onKeyDown={(e) => {
-                      e.preventDefault();
-                    }}
                   />
                 )}
               />
@@ -182,9 +179,6 @@ function MarkerUpdateForm() {
                     selected={field.value}
                     dateFormat="MMMM-dd-yyyy"
                     required
-                    onKeyDown={(e) => {
-                      e.preventDefault();
-                    }}
                   />
                 )}
               />
