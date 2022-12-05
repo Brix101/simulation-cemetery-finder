@@ -17,7 +17,12 @@ const UserList = dynamic(() => import("@/componentsuser/UserList"), {
 const AddUserDialog = dynamic(() => import("@/componentsuser/AddUserDialog"), {
   ssr: false,
 });
-
+const UpdateUserDialog = dynamic(
+  () => import("@/componentsuser/UpdateUserDialog"),
+  {
+    ssr: false,
+  }
+);
 const user: NextPage = () => {
   return (
     <div className="flex h-screen w-full flex-col  bg-gray-50">
@@ -28,6 +33,7 @@ const user: NextPage = () => {
         <UserList />
       </div>
       <AddUserDialog />
+      <UpdateUserDialog />
     </div>
   );
 };

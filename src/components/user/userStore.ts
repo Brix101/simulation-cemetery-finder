@@ -8,6 +8,8 @@ interface UserState {
   setIsAdding: (isAdding: boolean | undefined) => void;
   users: User[];
   setUsers: (users: User[] | undefined) => void;
+  isUserUpdate: User | undefined;
+  setIsUserUpdate: (user: User | undefined) => void;
 }
 
 const useUserStore = create<UserState>((set) => ({
@@ -26,6 +28,8 @@ const useUserStore = create<UserState>((set) => ({
     set(() => ({
       users: users,
     })),
+  isUserUpdate: undefined,
+  setIsUserUpdate: (user) => set(() => ({ isUserUpdate: user })),
 }));
 
 export default useUserStore;

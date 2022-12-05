@@ -7,7 +7,6 @@ import { useDebounce } from "usehooks-ts";
 import { PrimaryButton } from "../buttons";
 import { PrimaryInput } from "../inputs";
 import LinearLoading from "../LinearLoading";
-import AdminNavBar from "../navigation/AdminNavBar";
 import useMarkerStore from "./markerStore";
 
 function ViewMarkersList() {

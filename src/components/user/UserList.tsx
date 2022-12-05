@@ -1,6 +1,7 @@
 import { SearchUserInput } from "@/schema/user.schema";
 import { trpc } from "@/utils/trpc";
 import moment from "moment";
+import { useSession } from "next-auth/react";
 import React, { ChangeEvent, Suspense, useEffect, useState } from "react";
 import { Plus } from "react-feather";
 import { useDebounce } from "usehooks-ts";
@@ -10,7 +11,8 @@ import LinearLoading from "../LinearLoading";
 import useUserStore from "./userStore";
 
 function UserList() {
-  const { setIsAdding, users, setUsers } = useUserStore();
+  const { data: sessionData } = useSession();
+  const { setIsAdding, users, setUsers, setIsUserUpdate } = useUserStore();
   const [search, setSearch] = useState<SearchUserInput>({ name: "" });
   const debouncedValue = useDebounce<SearchUserInput>(search, 500);
 
@@ -53,11 +55,13 @@ function UserList() {
             />
           </div>
           <div className="w-28">
-            <PrimaryButton isSmall onClick={handleAddButton}>
-              <span className="flex items-center gap-2">
-                <Plus className="text-white" /> Add
-              </span>
-            </PrimaryButton>
+            {sessionData?.user?.role === "Admin" ? (
+              <PrimaryButton isSmall onClick={handleAddButton}>
+                <span className="flex items-center gap-2">
+                  <Plus className="text-white" /> Add
+                </span>
+              </PrimaryButton>
+            ) : null}
           </div>
         </div>
         <div className="max-w-6xl">
@@ -96,8 +100,7 @@ function UserList() {
                     scope="row"
                     className="cursor-pointer select-none whitespace-nowrap py-4 px-6 font-medium capitalize text-dark-blue-2 hover:text-dark-blue hover:underline "
                     onClick={() => {
-                      //   setUserView(user);
-                      //   setView("user");
+                      setIsUserUpdate(user);
                     }}
                   >
                     {user?.lastName +
@@ -112,7 +115,11 @@ function UserList() {
                   <td className="py-4 px-6">
                     {moment(user.birthDate).format("MMMM DD, YYYY")}
                   </td>
-                  <td className="py-4 px-6">{user.address}</td>
+                  <td className=" py-4 px-6">
+                    <p className="w-40 overflow-hidden overflow-ellipsis whitespace-nowrap">
+                      {user.address}
+                    </p>
+                  </td>
                   <td className="py-4 px-6">{user.userType}</td>
                 </tr>
               );

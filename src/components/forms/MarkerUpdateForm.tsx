@@ -2,6 +2,7 @@ import { UpdateMarkerInput } from "@/schema/marker.schema";
 import { trpc } from "@/utils/trpc";
 import { MarkerType } from "@prisma/client";
 import mapboxgl from "mapbox-gl";
+import { useSession } from "next-auth/react";
 import React, { useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -13,9 +14,9 @@ import DistructiveButton from "../buttons/DestructiveButton";
 import { PrimaryInput } from "../inputs";
 import useMapStore from "../map/mapStore";
 import useMarkerStore from "../marker/markerStore";
-import MarkerDeleteDialog from "./MarkerDeleteDialog";
 
 function MarkerUpdateForm() {
+  const { data: sessionData } = useSession();
   const { tempMarker, setTempMarker } = useMapStore();
   const { setView, markerView, setMarkerView, setMarkerToDelete } =
     useMarkerStore();
@@ -235,13 +236,15 @@ function MarkerUpdateForm() {
 
         <div className="flex items-end justify-between">
           <div>
-            <DistructiveButton
-              type="button"
-              isSmall
-              onClick={() => setMarkerToDelete(markerView)}
-            >
-              <Trash2 />
-            </DistructiveButton>
+            {sessionData?.user?.role === "Admin" ? (
+              <DistructiveButton
+                type="button"
+                isSmall
+                onClick={() => setMarkerToDelete(markerView)}
+              >
+                <Trash2 />
+              </DistructiveButton>
+            ) : null}
           </div>
           <div className="flex items-end justify-end gap-2">
             <div className="w-20">
