@@ -3,7 +3,7 @@ import { trpc } from "@/utils/trpc";
 import { MarkerType } from "@prisma/client";
 import mapboxgl from "mapbox-gl";
 import { useSession } from "next-auth/react";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Trash2 } from "react-feather";
@@ -70,6 +70,8 @@ function MarkerUpdateForm() {
         lastName: markerView.lastName as string,
         markerType: markerView.markerType,
         middleName: markerView.middleName,
+        contractEnd: markerView.contractEnd as Date,
+        contractStarted: markerView.contractStarted as Date,
       });
     }
   }, [markerView, reset, setTempMarker]);
@@ -87,7 +89,7 @@ function MarkerUpdateForm() {
     <div className="h-full w-full bg-white p-5">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex h-full w-full flex-col justify-between"
+        className="flex h-full w-full flex-col justify-between overflow-y-scroll pr-2"
       >
         <h1 className="text-2xl font-bold text-dark-blue">Update marker</h1>
         <div className="space-y-2">
@@ -204,6 +206,48 @@ function MarkerUpdateForm() {
                 />
               )}
             />
+          </div>
+          <div className="grid grid-cols-2 gap-2">
+            <div>
+              <label className="block text-sm font-medium text-gray-900 dark:text-gray-300">
+                Contract Started
+              </label>
+              <Controller
+                control={control}
+                name="contractStarted"
+                render={({ field }) => (
+                  <DatePicker
+                    className="h-10 w-full rounded-lg border-2 border-light-blue bg-white px-4 font-sans text-base text-gray-900 outline-none placeholder-shown:border-gray-400 hover:border-light-blue
+                focus:border-light-blue disabled:border-gray-200"
+                    placeholderText="Select date"
+                    onChange={(date) => field.onChange(date)}
+                    selected={field.value}
+                    dateFormat="MMMM-dd-yyyy"
+                    required
+                  />
+                )}
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-900 dark:text-gray-300">
+                Contract End
+              </label>
+              <Controller
+                control={control}
+                name="contractEnd"
+                render={({ field }) => (
+                  <DatePicker
+                    className="h-10 w-full rounded-lg border-2 border-light-blue bg-white px-4 font-sans text-base text-gray-900 outline-none placeholder-shown:border-gray-400 hover:border-light-blue
+                focus:border-light-blue disabled:border-gray-200"
+                    placeholderText="Select date"
+                    onChange={(date) => field.onChange(date)}
+                    selected={field.value}
+                    dateFormat="MMMM-dd-yyyy"
+                    required
+                  />
+                )}
+              />
+            </div>
           </div>
           <div className="relative grid grid-cols-2 gap-2">
             <div>

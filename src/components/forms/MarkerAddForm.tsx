@@ -1,8 +1,8 @@
 import { AddMarkerInput } from "@/schema/marker.schema";
 import { trpc } from "@/utils/trpc";
 import { MarkerType } from "@prisma/client";
+import moment from "moment";
 import { useRouter } from "next/router";
-import React from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Controller, useForm } from "react-hook-form";
@@ -13,7 +13,6 @@ import useMapStore from "../map/mapStore";
 import useMarkerStore from "../marker/markerStore";
 
 function MarkerAddForm() {
-  const router = useRouter();
   const { tempMarker, setTempMarker } = useMapStore();
   const { setView } = useMarkerStore();
   const {
@@ -23,6 +22,7 @@ function MarkerAddForm() {
     watch,
     getValues,
     reset,
+    setValue,
     formState: { isValid, isDirty },
   } = useForm<AddMarkerInput>({ mode: "onChange" });
 
@@ -53,11 +53,17 @@ function MarkerAddForm() {
     mutate({ ...values, ...tempMarker?.getLngLat() });
   }
 
+  function addYears({ date, years }: { date: Date; years: number }): Date {
+    const dateCopy = new Date(date);
+    dateCopy.setFullYear(dateCopy.getFullYear() + years);
+    return dateCopy;
+  }
+
   return (
     <div className="h-full w-full bg-white p-5">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex h-full w-full flex-col justify-between"
+        className="flex h-full w-full flex-col justify-between overflow-y-scroll pr-2"
       >
         <h1 className="text-2xl font-bold text-dark-blue">Add new marker</h1>
         <div className="space-y-2">
@@ -174,6 +180,54 @@ function MarkerAddForm() {
                 />
               )}
             />
+          </div>
+          <div className="grid grid-cols-2 gap-2">
+            <div>
+              <label className="block text-sm font-medium text-gray-900 dark:text-gray-300">
+                Contract Started
+              </label>
+              <Controller
+                control={control}
+                name="contractStarted"
+                render={({ field }) => (
+                  <DatePicker
+                    className="h-10 w-full rounded-lg border-2 border-light-blue bg-white px-4 font-sans text-base text-gray-900 outline-none placeholder-shown:border-gray-400 hover:border-light-blue
+                focus:border-light-blue disabled:border-gray-200"
+                    placeholderText="Select date"
+                    onChange={(date) => {
+                      field.onChange(date);
+                      setValue(
+                        "contractEnd",
+                        addYears({ date: date as Date, years: 5 })
+                      );
+                    }}
+                    selected={field.value}
+                    dateFormat="MMMM-dd-yyyy"
+                    required
+                  />
+                )}
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-900 dark:text-gray-300">
+                Contract End
+              </label>
+              <Controller
+                control={control}
+                name="contractEnd"
+                render={({ field }) => (
+                  <DatePicker
+                    className="h-10 w-full rounded-lg border-2 border-light-blue bg-white px-4 font-sans text-base text-gray-900 outline-none placeholder-shown:border-gray-400 hover:border-light-blue
+                focus:border-light-blue disabled:border-gray-200"
+                    placeholderText="Select date"
+                    onChange={(date) => field.onChange(date)}
+                    selected={field.value}
+                    dateFormat="MMMM-dd-yyyy"
+                    required
+                  />
+                )}
+              />
+            </div>
           </div>
           <div className="relative grid grid-cols-2 gap-2">
             <div>

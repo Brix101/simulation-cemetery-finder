@@ -41,6 +41,8 @@ model Marker {
   middleName      String?
   bornDate        DateTime?
   diedDate        DateTime?
+  contractStarted DateTime?
+  contractEnd     DateTime?
   lng             Float
   lat             Float
   markerType      MarkerType @default(Pantheon)

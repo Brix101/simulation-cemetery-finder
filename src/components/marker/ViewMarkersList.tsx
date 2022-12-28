@@ -1,7 +1,7 @@
 import { SearchMarkerInput } from "@/schema/marker.schema";
 import { trpc } from "@/utils/trpc";
 import moment from "moment";
-import React, { ChangeEvent, Suspense, useState } from "react";
+import { ChangeEvent, Suspense, useState } from "react";
 import { Plus } from "react-feather";
 import { useDebounce } from "usehooks-ts";
 import { PrimaryButton } from "../buttons";
@@ -62,13 +62,13 @@ function ViewMarkersList() {
                 Deceased Name
               </th>
               <th scope="col" className="py-3 px-6">
-                Born
-              </th>
-              <th scope="col" className="py-3 px-6">
-                Died
-              </th>
-              <th scope="col" className="py-3 px-6">
                 Area Type
+              </th>
+              <th scope="col" className="py-3 px-6">
+                Contract Started
+              </th>
+              <th scope="col" className="py-3 px-6">
+                Contract End
               </th>
               <th scope="col" className="whitespace-nowrap py-3 px-6">
                 Family Contact
@@ -97,14 +97,14 @@ function ViewMarkersList() {
                         " " +
                         marker?.middleName}
                     </th>
+                    <td className="py-4 px-6">{marker.markerType}</td>
 
                     <td className="whitespace-nowrap py-4 px-6">
-                      {moment(marker.bornDate).format("MMMM DD, YYYY")}
+                      {moment(marker.contractStarted).format("MMMM DD, YYYY")}
                     </td>
                     <td className="whitespace-nowrap py-4 px-6">
-                      {moment(marker.diedDate).format("MMMM DD, YYYY")}
+                      {moment(marker.contractEnd).format("MMMM DD, YYYY")}
                     </td>
-                    <td className="py-4 px-6">{marker.markerType}</td>
                     <td className="py-4 px-6">{marker.familyNumber}</td>
                     <td className="py-4 px-6">{marker.familyAddress}</td>
                   </tr>

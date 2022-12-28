@@ -41,6 +41,8 @@ export const markerRouter = router({
           middleName,
           familyAddress,
           familyNumber,
+          contractEnd,
+          contractStarted,
         } = input;
 
         const newMarker = await ctx.prisma.marker.create({
@@ -57,6 +59,8 @@ export const markerRouter = router({
             apartmentRow: apartmentRow,
             familyAddress: familyAddress,
             familyNumber: familyNumber,
+            contractEnd: contractEnd,
+            contractStarted: contractStarted,
           },
         });
 
@@ -88,6 +92,8 @@ export const markerRouter = router({
           middleName,
           familyAddress,
           familyNumber,
+          contractEnd,
+          contractStarted,
         } = input;
 
         const updatedMarker = await ctx.prisma.marker.update({
@@ -107,6 +113,8 @@ export const markerRouter = router({
             apartmentRow: apartmentRow,
             familyAddress: familyAddress,
             familyNumber: familyNumber,
+            contractEnd: contractEnd,
+            contractStarted: contractStarted,
           },
         });
 
