@@ -58,6 +58,7 @@ enum MarkerType {
   Apartment
   Ground_Burial
   Pantheon
+  Common_Depository
 }
 
 enum UserType {
