@@ -27,6 +27,7 @@ function MarkerUpdateForm() {
     watch,
     getValues,
     reset,
+    setValue,
     formState: { isValid },
   } = useForm<UpdateMarkerInput>();
 
@@ -202,12 +203,16 @@ function MarkerUpdateForm() {
                   value={areaType.find((c) => c.value === value)}
                   onChange={(role) => {
                     onChange(role?.value);
+                    if (role?.value === "Common_Depository") {
+                      setValue("contractEnd", null);
+                      setValue("contractStarted", null);
+                    }
                   }}
                 />
               )}
             />
           </div>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="relative grid grid-cols-2 gap-2">
             <div>
               <label className="block text-sm font-medium text-gray-900 dark:text-gray-300">
                 Contract Started
@@ -220,10 +225,16 @@ function MarkerUpdateForm() {
                     className="h-10 w-full rounded-lg border-2 border-light-blue bg-white px-4 font-sans text-base text-gray-900 outline-none placeholder-shown:border-gray-400 hover:border-light-blue
                 focus:border-light-blue disabled:border-gray-200"
                     placeholderText="Select date"
-                    onChange={(date) => field.onChange(date)}
+                    onChange={(date) => {
+                      field.onChange(
+                        getValues("markerType") !== "Common_Depository"
+                          ? date
+                          : null
+                      );
+                    }}
                     selected={field.value}
                     dateFormat="MMMM-dd-yyyy"
-                    required
+                    required={getValues("markerType") !== "Common_Depository"}
                   />
                 )}
               />
@@ -240,14 +251,24 @@ function MarkerUpdateForm() {
                     className="h-10 w-full rounded-lg border-2 border-light-blue bg-white px-4 font-sans text-base text-gray-900 outline-none placeholder-shown:border-gray-400 hover:border-light-blue
                 focus:border-light-blue disabled:border-gray-200"
                     placeholderText="Select date"
-                    onChange={(date) => field.onChange(date)}
+                    onChange={(date) =>
+                      field.onChange(
+                        getValues("markerType") !== "Common_Depository"
+                          ? date
+                          : null
+                      )
+                    }
                     selected={field.value}
                     dateFormat="MMMM-dd-yyyy"
-                    required
+                    required={getValues("markerType") !== "Common_Depository"}
                   />
                 )}
               />
             </div>
+
+            {getValues("markerType") === "Common_Depository" ? (
+              <div className="absolute h-full w-full bg-white/[.80]"></div>
+            ) : null}
           </div>
           <div className="relative grid grid-cols-2 gap-2">
             <div>

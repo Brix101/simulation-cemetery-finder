@@ -113,8 +113,8 @@ export const markerRouter = router({
             apartmentRow: apartmentRow,
             familyAddress: familyAddress,
             familyNumber: familyNumber,
-            contractEnd: contractEnd,
-            contractStarted: contractStarted,
+            contractEnd: contractEnd ?? null,
+            contractStarted: contractStarted ?? null,
           },
         });
 

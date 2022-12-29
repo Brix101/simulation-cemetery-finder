@@ -100,10 +100,14 @@ function ViewMarkersList() {
                     <td className="py-4 px-6">{marker.markerType}</td>
 
                     <td className="whitespace-nowrap py-4 px-6">
-                      {moment(marker.contractStarted).format("MMMM DD, YYYY")}
+                      {marker.contractStarted
+                        ? moment(marker.contractStarted).format("MMMM DD, YYYY")
+                        : null}
                     </td>
                     <td className="whitespace-nowrap py-4 px-6">
-                      {moment(marker.contractEnd).format("MMMM DD, YYYY")}
+                      {marker.contractEnd
+                        ? moment(marker.contractEnd).format("MMMM DD, YYYY")
+                        : null}
                     </td>
                     <td className="py-4 px-6">{marker.familyNumber}</td>
                     <td className="py-4 px-6">{marker.familyAddress}</td>

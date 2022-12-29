@@ -181,7 +181,7 @@ function MarkerAddForm() {
               )}
             />
           </div>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="relative grid grid-cols-2 gap-2">
             <div>
               <label className="block text-sm font-medium text-gray-900 dark:text-gray-300">
                 Contract Started
@@ -195,15 +195,21 @@ function MarkerAddForm() {
                 focus:border-light-blue disabled:border-gray-200"
                     placeholderText="Select date"
                     onChange={(date) => {
-                      field.onChange(date);
-                      setValue(
-                        "contractEnd",
-                        addYears({ date: date as Date, years: 5 })
+                      field.onChange(
+                        getValues("markerType") !== "Common_Depository"
+                          ? date
+                          : null
                       );
+                      if (date) {
+                        setValue(
+                          "contractEnd",
+                          addYears({ date: date as Date, years: 5 })
+                        );
+                      }
                     }}
                     selected={field.value}
                     dateFormat="MMMM-dd-yyyy"
-                    required
+                    required={getValues("markerType") !== "Common_Depository"}
                   />
                 )}
               />
@@ -220,14 +226,24 @@ function MarkerAddForm() {
                     className="h-10 w-full rounded-lg border-2 border-light-blue bg-white px-4 font-sans text-base text-gray-900 outline-none placeholder-shown:border-gray-400 hover:border-light-blue
                 focus:border-light-blue disabled:border-gray-200"
                     placeholderText="Select date"
-                    onChange={(date) => field.onChange(date)}
+                    onChange={(date) =>
+                      field.onChange(
+                        getValues("markerType") !== "Common_Depository"
+                          ? date
+                          : null
+                      )
+                    }
                     selected={field.value}
                     dateFormat="MMMM-dd-yyyy"
-                    required
+                    required={getValues("markerType") !== "Common_Depository"}
                   />
                 )}
               />
             </div>
+
+            {getValues("markerType") === "Common_Depository" ? (
+              <div className="absolute h-full w-full bg-white/[.80]"></div>
+            ) : null}
           </div>
           <div className="relative grid grid-cols-2 gap-2">
             <div>
