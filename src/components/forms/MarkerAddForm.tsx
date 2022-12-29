@@ -1,8 +1,6 @@
 import { AddMarkerInput } from "@/schema/marker.schema";
 import { trpc } from "@/utils/trpc";
 import { MarkerType } from "@prisma/client";
-import moment from "moment";
-import { useRouter } from "next/router";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Controller, useForm } from "react-hook-form";

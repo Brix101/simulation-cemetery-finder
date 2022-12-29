@@ -84,7 +84,7 @@ function MarkerUpdateForm() {
       }).setLngLat([markerView.lng, markerView.lat]);
       setTempMarker(newTempMarker);
     }
-  }, [markerView, tempMarker]);
+  }, [markerView, tempMarker, setTempMarker]);
 
   return (
     <div className="h-full w-full bg-white p-5">

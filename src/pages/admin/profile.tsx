@@ -1,5 +1,5 @@
 import AdminNavBar from "@/components/navigation/AdminNavBar";
-import { PrimaryButton, SecondaryButton } from "@/componentsbuttons";
+import { PrimaryButton } from "@/componentsbuttons";
 import { PasswordInput, PrimaryInput } from "@/componentsinputs";
 import { UpdateUserInput } from "@/schema/user.schema";
 import { trpc } from "@/utils/trpc";
