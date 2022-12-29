@@ -26,47 +26,43 @@ ${selectedPerson ? "translate-x-0" : "-translate-x-full"}`}
         </div>
         <div className="h-full w-full flex-1 space-y-5  text-dark-blue">
           <h1 className="font-sans text-base font-bold">Information:</h1>
-          <div className="flex-1 space-y-2 pb-5">
-            <div className="flex w-full items-center justify-start gap-2">
-              <label className="font-sans text-sm text-gray-700">name: </label>
-              <span className="font-sans text-sm capitalize text-dark-blue">
-                {selectedPerson?.lastName +
-                  ", " +
-                  selectedPerson?.firstName +
-                  " " +
-                  selectedPerson?.middleName}
-              </span>
-            </div>
-            <div className="flex w-full items-center justify-start gap-2">
-              <label className="font-sans text-sm text-gray-700">died: </label>
-              <span className="font-sans text-sm capitalize text-dark-blue">
-                {moment(selectedPerson?.diedDate).format("MMMM DD, YYYY")}
-              </span>
-            </div>
-            <div className="flex w-full items-center justify-start gap-2">
-              <label className="font-sans text-sm text-gray-700">type: </label>
-              <span className="font-sans text-sm capitalize text-dark-blue">
-                {selectedPerson?.markerType.replace("_", " ")} type
-              </span>
-            </div>
+          <div className="grid grid-cols-5 gap-2">
+            <label className="col-span-1 font-sans text-sm text-gray-700">
+              name:{" "}
+            </label>
+            <span className="col-span-4 font-sans text-sm capitalize text-dark-blue">
+              {selectedPerson?.lastName +
+                ", " +
+                selectedPerson?.firstName +
+                " " +
+                selectedPerson?.middleName}
+            </span>
+            <label className="col-span-1 font-sans text-sm text-gray-700">
+              died:{" "}
+            </label>
+            <span className="col-span-4 font-sans text-sm capitalize text-dark-blue">
+              {moment(selectedPerson?.diedDate).format("MMMM DD, YYYY")}
+            </span>
+            <label className="col-span-1 font-sans text-sm text-gray-700">
+              area:{" "}
+            </label>
+            <span className="col-span-4 font-sans text-sm capitalize text-dark-blue">
+              {selectedPerson?.markerType.replace("_", " ")} type
+            </span>
             {selectedPerson?.markerType === "Apartment" ? (
               <>
-                <div className="flex w-full items-center justify-start gap-2">
-                  <label className="font-sans text-sm text-gray-700">
-                    row:{" "}
-                  </label>
-                  <span className="font-sans text-sm capitalize text-dark-blue">
-                    {selectedPerson?.apartmentRow}
-                  </span>
-                </div>
-                <div className="flex w-full items-center justify-start gap-2">
-                  <label className="font-sans text-sm text-gray-700">
-                    column:{" "}
-                  </label>
-                  <span className="font-sans text-sm capitalize text-dark-blue">
-                    {selectedPerson?.apartmentColumn}
-                  </span>
-                </div>
+                <label className="col-span-1 font-sans text-sm text-gray-700">
+                  row:{" "}
+                </label>
+                <span className="col-span-4 font-sans text-sm capitalize text-dark-blue">
+                  {selectedPerson?.apartmentRow}
+                </span>
+                <label className="col-span-1 font-sans text-sm text-gray-700">
+                  column:{" "}
+                </label>
+                <span className="col-span-4 font-sans text-sm capitalize text-dark-blue">
+                  {selectedPerson?.apartmentColumn}
+                </span>
               </>
             ) : null}
           </div>
