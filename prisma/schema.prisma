@@ -39,7 +39,6 @@ model Marker {
   firstName       String?
   lastName        String?
   middleName      String?
-  bornDate        DateTime?
   diedDate        DateTime?
   contractStarted DateTime?
   contractEnd     DateTime?

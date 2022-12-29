@@ -38,12 +38,6 @@ ${selectedPerson ? "translate-x-0" : "-translate-x-full"}`}
               </span>
             </div>
             <div className="flex w-full items-center justify-start gap-2">
-              <label className="font-sans text-sm text-gray-700">born: </label>
-              <span className="font-sans text-sm capitalize text-dark-blue">
-                {moment(selectedPerson?.bornDate).format("MMMM DD, YYYY")}
-              </span>
-            </div>
-            <div className="flex w-full items-center justify-start gap-2">
               <label className="font-sans text-sm text-gray-700">died: </label>
               <span className="font-sans text-sm capitalize text-dark-blue">
                 {moment(selectedPerson?.diedDate).format("MMMM DD, YYYY")}
@@ -52,7 +46,7 @@ ${selectedPerson ? "translate-x-0" : "-translate-x-full"}`}
             <div className="flex w-full items-center justify-start gap-2">
               <label className="font-sans text-sm text-gray-700">type: </label>
               <span className="font-sans text-sm capitalize text-dark-blue">
-                {selectedPerson?.markerType} type
+                {selectedPerson?.markerType.replace("_", " ")} type
               </span>
             </div>
             {selectedPerson?.markerType === "Apartment" ? (

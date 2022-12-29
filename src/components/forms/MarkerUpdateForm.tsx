@@ -62,7 +62,6 @@ function MarkerUpdateForm() {
       reset({
         apartmentColumn: markerView.apartmentColumn,
         apartmentRow: markerView.apartmentColumn,
-        bornDate: markerView.bornDate as Date,
         diedDate: markerView.diedDate as Date,
         familyAddress: markerView.familyAddress,
         familyNumber: markerView.familyNumber,
@@ -146,47 +145,25 @@ function MarkerUpdateForm() {
               register={register("familyAddress")}
             />
           </div>
-          <div className="grid grid-cols-2 gap-2">
-            <div>
-              <label className="block text-sm font-medium text-gray-900 dark:text-gray-300">
-                Date Born
-              </label>
-              <Controller
-                control={control}
-                name="bornDate"
-                render={({ field }) => (
-                  <DatePicker
-                    className="h-10 w-full rounded-lg border-2 border-light-blue bg-white px-4 font-sans text-base text-gray-900 outline-none placeholder-shown:border-gray-400 hover:border-light-blue
+          <div>
+            <label className="block text-sm font-medium text-gray-900 dark:text-gray-300">
+              Date Died
+            </label>
+            <Controller
+              control={control}
+              name="diedDate"
+              render={({ field }) => (
+                <DatePicker
+                  className="h-10 w-full rounded-lg border-2 border-light-blue bg-white px-4 font-sans text-base text-gray-900 outline-none placeholder-shown:border-gray-400 hover:border-light-blue
               focus:border-light-blue disabled:border-gray-200"
-                    placeholderText="Select date"
-                    onChange={(date) => field.onChange(date)}
-                    selected={field.value}
-                    dateFormat="MMMM-dd-yyyy"
-                    required
-                  />
-                )}
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-900 dark:text-gray-300">
-                Date Died
-              </label>
-              <Controller
-                control={control}
-                name="diedDate"
-                render={({ field }) => (
-                  <DatePicker
-                    className="h-10 w-full rounded-lg border-2 border-light-blue bg-white px-4 font-sans text-base text-gray-900 outline-none placeholder-shown:border-gray-400 hover:border-light-blue
-              focus:border-light-blue disabled:border-gray-200"
-                    placeholderText="Select date"
-                    onChange={(date) => field.onChange(date)}
-                    selected={field.value}
-                    dateFormat="MMMM-dd-yyyy"
-                    required
-                  />
-                )}
-              />
-            </div>
+                  placeholderText="Select date"
+                  onChange={(date) => field.onChange(date)}
+                  selected={field.value}
+                  dateFormat="MMMM-dd-yyyy"
+                  required
+                />
+              )}
+            />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-900 dark:text-gray-300">
