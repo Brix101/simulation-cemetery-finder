@@ -24,6 +24,9 @@ function MapSearchForm() {
   const { setIsLogin } = useUserStore();
 
   const handleSignInClick = () => {
+    selectedMarker?.remove();
+    setSelectedPerson(undefined);
+
     if (status === "authenticated") {
       router.push("/admin");
     } else {

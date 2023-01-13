@@ -130,12 +130,6 @@ const Map = () => {
           }
         });
       });
-      // map.addControl(
-      //   new MapboxDirections({
-      //   accessToken: mapboxgl.accessToken
-      //   }),
-      //   'top-left'
-      //   )
     }
   }, [ref, center, setMap]);
 
@@ -156,7 +150,7 @@ const Map = () => {
       );
     }
   }, [data, setOptions]);
-
+  // for libe
   useEffect(() => {
     const route = map?.getSource("route") as mapboxgl.GeoJSONSource;
     if (route) {
@@ -176,12 +170,6 @@ const Map = () => {
       const { lat, lng } = selectedPerson;
       const marker = new mapboxgl.Marker().setLngLat([lng, lat]).addTo(map);
       setSelectedMarker(marker);
-      // new mapboxgl.Popup({
-      //   closeOnClick: false,
-      // })
-      //   .setLngLat([lng, lat])
-      //   .setHTML("<h1>" + firstName + "</h1>")
-      //   .addTo(map);
     }
   }, [map, selectedPerson, setSelectedMarker]);
 
