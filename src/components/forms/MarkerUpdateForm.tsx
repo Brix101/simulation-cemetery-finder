@@ -77,6 +77,8 @@ function MarkerUpdateForm() {
         middleName: markerView.middleName,
         contractEnd: markerView.contractEnd as Date,
         contractStarted: markerView.contractStarted as Date,
+        contactName: markerView.contactName,
+        status: markerView.status,
       });
     }
   }, [markerView, reset, setTempMarker]);
@@ -84,11 +86,9 @@ function MarkerUpdateForm() {
   useEffect(() => {
     if (markerView && !tempMarker) {
       const newTempMarker = new mapboxgl.Marker({
-        draggable: true,
+        draggable: !markerView.status,
       }).setLngLat([markerView.lng, markerView.lat]);
-      if (!markerView.status) {
-        setTempMarker(newTempMarker);
-      }
+      setTempMarker(newTempMarker);
     }
   }, [markerView, tempMarker, setTempMarker]);
 

@@ -71,6 +71,9 @@ function ViewMarkersList() {
                 Contract End
               </th>
               <th scope="col" className="whitespace-nowrap py-3 px-6">
+                Contact Name
+              </th>
+              <th scope="col" className="whitespace-nowrap py-3 px-6">
                 Family Contact
               </th>
               <th scope="col" className="py-3 px-6">
@@ -109,6 +112,7 @@ function ViewMarkersList() {
                         ? moment(marker.contractEnd).format("MMMM DD, YYYY")
                         : null}
                     </td>
+                    <td className="py-4 px-6">{marker.contactName}</td>
                     <td className="py-4 px-6">{marker.familyNumber}</td>
                     <td className="py-4 px-6">{marker.familyAddress}</td>
                   </tr>
