@@ -137,7 +137,7 @@ const Map = () => {
     if (data) {
       setOptions(
         data
-          .filter((markerData) => markerData.status)
+          .filter((markerData) => !markerData.status)
           .map((markerData) => {
             return {
               value: markerData,
