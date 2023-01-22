@@ -46,6 +46,11 @@ function MarkerUpdateForm() {
     }
   );
 
+  const status = [
+    { label: "Active", value: false },
+    { label: "Transferred", value: true },
+  ];
+
   const handleCancelClick = () => {
     tempMarker?.remove();
     setView("list");
@@ -81,7 +86,9 @@ function MarkerUpdateForm() {
       const newTempMarker = new mapboxgl.Marker({
         draggable: true,
       }).setLngLat([markerView.lng, markerView.lat]);
-      setTempMarker(newTempMarker);
+      if (!markerView.status) {
+        setTempMarker(newTempMarker);
+      }
     }
   }, [markerView, tempMarker, setTempMarker]);
 
@@ -93,6 +100,26 @@ function MarkerUpdateForm() {
       >
         <h1 className="text-2xl font-bold text-dark-blue">Update marker</h1>
         <div className="space-y-2">
+          <div>
+            <label className="block text-sm font-medium text-gray-900 dark:text-gray-300">
+              Status
+            </label>
+            <Controller
+              control={control}
+              defaultValue={false}
+              name="status"
+              render={({ field: { onChange, value } }) => (
+                <Select
+                  classNamePrefix="addl-class"
+                  options={status}
+                  value={status.find((c) => c.value === value)}
+                  onChange={(status) => {
+                    onChange(status?.value);
+                  }}
+                />
+              )}
+            />
+          </div>
           <div className="flex gap-2">
             <div>
               <label className="block text-sm font-medium text-gray-900 dark:text-gray-300">
@@ -124,6 +151,16 @@ function MarkerUpdateForm() {
                 register={register("lastName")}
               />
             </div>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-900 dark:text-gray-300">
+              Contact Name
+            </label>
+            <PrimaryInput
+              isSmall
+              placeholder="Contact Name"
+              register={register("contactName")}
+            />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-900 dark:text-gray-300">

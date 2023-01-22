@@ -99,6 +99,16 @@ function MarkerAddForm() {
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-900 dark:text-gray-300">
+              Contact Name
+            </label>
+            <PrimaryInput
+              isSmall
+              placeholder="Contact Name"
+              register={register("contactName")}
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-900 dark:text-gray-300">
               Family Contact Number
             </label>
             <PrimaryInput

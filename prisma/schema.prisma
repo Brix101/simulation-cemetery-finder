@@ -47,8 +47,10 @@ model Marker {
   markerType      MarkerType @default(Pantheon)
   apartmentRow    String?
   apartmentColumn String?
+  contactName     String?
   familyNumber    String?
   familyAddress   String?
+  status          Boolean?   @default(false)
   createdAt       DateTime   @default(now())
   updatedAt       DateTime   @updatedAt
 }

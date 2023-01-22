@@ -15,6 +15,7 @@ export const addMarkerSchema = z.object({
   apartmentColumn: z.string().nullable(),
   familyNumber: z.string().nullable(),
   familyAddress: z.string().nullable(),
+  contactName: z.string().nullable(),
 });
 
 export const updateMarkerSchema = z.object({
@@ -32,6 +33,8 @@ export const updateMarkerSchema = z.object({
   apartmentColumn: z.string().nullable(),
   familyNumber: z.string().nullable(),
   familyAddress: z.string().nullable(),
+  contactName: z.string().nullable(),
+  status: z.boolean().nullable(),
 });
 
 export const deleteMarkerSchema = z.object({

@@ -136,17 +136,19 @@ const Map = () => {
   useEffect(() => {
     if (data) {
       setOptions(
-        data.map((markerData) => {
-          return {
-            value: markerData,
-            label:
-              markerData.lastName +
-              ", " +
-              markerData.firstName +
-              " " +
-              markerData.middleName,
-          };
-        })
+        data
+          .filter((markerData) => markerData.status)
+          .map((markerData) => {
+            return {
+              value: markerData,
+              label:
+                markerData.lastName +
+                ", " +
+                markerData.firstName +
+                " " +
+                markerData.middleName,
+            };
+          })
       );
     }
   }, [data, setOptions]);
