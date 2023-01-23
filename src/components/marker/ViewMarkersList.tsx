@@ -79,6 +79,9 @@ function ViewMarkersList() {
               <th scope="col" className="py-3 px-6">
                 Family Address
               </th>
+              <th scope="col" className="py-3 px-6">
+                Status
+              </th>
             </tr>
           </thead>
           <Suspense>
@@ -100,7 +103,9 @@ function ViewMarkersList() {
                         " " +
                         marker?.middleName}
                     </th>
-                    <td className="py-4 px-6">{marker.markerType}</td>
+                    <td className="py-4 px-6">
+                      {!marker.status ? marker.markerType : ""}
+                    </td>
 
                     <td className="whitespace-nowrap py-4 px-6">
                       {marker.contractStarted
@@ -115,6 +120,9 @@ function ViewMarkersList() {
                     <td className="py-4 px-6">{marker.contactName}</td>
                     <td className="py-4 px-6">{marker.familyNumber}</td>
                     <td className="py-4 px-6">{marker.familyAddress}</td>
+                    <td className="py-4 px-6">
+                      {marker.status ? "Transferred" : "Active"}
+                    </td>
                   </tr>
                 );
               })}
